@@ -31,9 +31,9 @@ import { getAppBaseUrl } from './config/constants';
 const app = express();
 const serverLogger = createServiceLogger('server');
 
-// Initialize Sentry error tracking (must be before any other middleware)
-initializeSentry(app);
-serverLogger.info('Sentry monitoring initialized');
+// Sentry DISABLED in isolated repo — skip initialization
+// initializeSentry(app);
+serverLogger.info('Sentry monitoring DISABLED (isolated repo)');
 
 // CRITICAL: Health check routes BEFORE any middleware - for deployment health checks
 // These must respond instantly so Replit Autoscale doesn't time out
@@ -439,61 +439,14 @@ async function bootstrap() {
           serverReady = true;
 
           // ================================================================
-          // PHASE 2: Background services — database, sync, cron, SMS
-          // These run after routes are live so they don't block health checks
-          // Each is wrapped in its own try/catch so one failure doesn't stop others
+          // PHASE 2: DISABLED — External services isolated
+          // Database, SMS, Google Sheets sync, cron jobs, and metrics
+          // are all disabled in this isolated demo repo to prevent
+          // accidental connections to production services.
           // ================================================================
-          serverLogger.info('🔄 Phase 2: Starting background services...');
+          serverLogger.info('⚠️ Phase 2 SKIPPED — external services disabled (isolated repo)');
 
-          // Database initialization (migrations, schema checks, session table)
-          try {
-            await initializeDatabase();
-            logger.log({ message: '✓ Database initialization complete', level: 'info' });
-          } catch (error) {
-            serverLogger.error('Database initialization failed:', error);
-          }
-
-          // SMS provider
-          try {
-            const { SMSProviderFactory } = await import('./sms-providers/provider-factory');
-            await SMSProviderFactory.getInstance().ensureInitialized();
-            serverLogger.info('✅ SMS provider initialized');
-          } catch (error) {
-            serverLogger.error('SMS provider initialization failed:', error);
-          }
-
-          // Background Google Sheets sync
-          try {
-            const { storage } = (await import('./storage-wrapper')) as {
-              storage: IStorage;
-            };
-            const { startBackgroundSync } = await import('./background-sync-service');
-            startBackgroundSync(storage);
-            logger.log({ message: '✓ Background Google Sheets sync service started', level: 'info' });
-
-            // Cron jobs
-            try {
-              const { initializeCronJobs } = await import('./services/cron-jobs');
-              initializeCronJobs();
-              logger.info('✅ Cron jobs initialized');
-            } catch (error) {
-              serverLogger.error('Cron jobs initialization failed:', error);
-            }
-
-            // Metrics updates
-            if (sessionStore) {
-              try {
-                startMetricsUpdates(storage, sessionStore);
-                logger.info('✅ Periodic metrics updates started');
-              } catch (error) {
-                serverLogger.error('Metrics updates initialization failed:', error);
-              }
-            }
-          } catch (error) {
-            serverLogger.error('Storage/sync initialization failed:', error);
-          }
-
-          logger.info('SERVER INITIALIZATION COMPLETE');
+          logger.info('SERVER INITIALIZATION COMPLETE (ISOLATED MODE)');
           logger.info(`Health Check: http://${host}:${port}/monitoring/health/detailed`);
         } catch (initError) {
           serverLogger.error('✗ Initialization failed:', initError);
