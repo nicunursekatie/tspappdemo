@@ -1,0 +1,1345 @@
+import type { UserForPermissions } from './types';
+
+// Resource interfaces for permission checking
+export interface ResourceWithOwner {
+  id?: number | string;
+  createdBy?: string | null;
+  created_by?: string | null;
+}
+
+export interface ProjectResource extends ResourceWithOwner {
+  assigneeId?: string | number | null;
+  assignee_id?: string | number | null;
+  assigneeIds?: string[] | string | null;
+  assignee_ids?: string[] | string | null;
+  supportPeopleIds?: string[] | string | null;
+  support_people_ids?: string[] | string | null;
+  assigneeName?: string[] | string | null;
+  assigneeNames?: string[] | string | null;
+  supportPeople?: string[] | string | null;
+}
+
+export interface WorkLogResource extends ResourceWithOwner {
+  userId?: string | null;
+}
+
+export interface SuggestionResource extends ResourceWithOwner {
+  submittedBy?: string | null;
+}
+
+export const USER_ROLES = {
+  SUPER_ADMIN: 'super_admin',
+  ADMIN: 'admin',
+  COMMITTEE_MEMBER: 'committee_member',
+  CORE_TEAM: 'core_team',
+  HOST: 'host',
+  DRIVER: 'driver',
+  VOLUNTEER: 'volunteer',
+  RECIPIENT: 'recipient',
+  VIEWER: 'viewer',
+  WORK_LOGGER: 'work_logger',
+  DEMO_USER: 'demo_user',
+  REVIEWER: 'reviewer', // Read-only role that can see all features but cannot make changes
+} as const;
+
+// Clean Resource-Action Permission System
+export const PERMISSIONS = {
+  // ADMINISTRATIVE PERMISSIONS
+  ADMIN_ACCESS: 'ADMIN_ACCESS',
+  MANAGE_ANNOUNCEMENTS: 'MANAGE_ANNOUNCEMENTS',
+
+  // CONTACTS - Phone directory
+  CONTACTS_VIEW: 'CONTACTS_VIEW', // View phone directory
+  MANAGE_DIRECTORY: 'MANAGE_DIRECTORY', // Manage phone directory entries
+
+  // HOSTS - Host location management
+  HOSTS_VIEW: 'HOSTS_VIEW',
+  HOSTS_ADD: 'HOSTS_ADD',
+  HOSTS_EDIT_OWN: 'HOSTS_EDIT_OWN', // Edit own host contact details (matched by email)
+  HOSTS_EDIT: 'HOSTS_EDIT', // Edit any host location/contact
+  HOSTS_DELETE: 'HOSTS_DELETE',
+  HOST_RESOURCES_ACCESS: 'HOST_RESOURCES_ACCESS', // Access to Host Resources hub
+
+  // RECIPIENTS - Recipient organization management
+  RECIPIENTS_VIEW: 'RECIPIENTS_VIEW',
+  RECIPIENTS_ADD: 'RECIPIENTS_ADD',
+  RECIPIENTS_EDIT: 'RECIPIENTS_EDIT',
+  RECIPIENTS_DELETE: 'RECIPIENTS_DELETE',
+
+  // DRIVERS - Driver management
+  DRIVERS_VIEW: 'DRIVERS_VIEW',
+  DRIVERS_ADD: 'DRIVERS_ADD',
+  DRIVERS_EDIT: 'DRIVERS_EDIT',
+  DRIVERS_DELETE: 'DRIVERS_DELETE',
+
+  // VOLUNTEERS - Volunteer management
+  VOLUNTEERS_VIEW: 'VOLUNTEERS_VIEW',
+  VOLUNTEERS_ADD: 'VOLUNTEERS_ADD',
+  VOLUNTEERS_EDIT: 'VOLUNTEERS_EDIT',
+  VOLUNTEERS_DELETE: 'VOLUNTEERS_DELETE',
+
+  // USERS - User account management
+  USERS_VIEW: 'USERS_VIEW',
+  USERS_ADD: 'USERS_ADD',
+  USERS_EDIT: 'USERS_EDIT',
+  USERS_DELETE: 'USERS_DELETE',
+
+  // COLLECTIONS - Sandwich collection data
+  COLLECTIONS_VIEW: 'COLLECTIONS_VIEW',
+  COLLECTIONS_ADD: 'COLLECTIONS_ADD',
+  COLLECTIONS_EDIT_OWN: 'COLLECTIONS_EDIT_OWN', // Edit own collection logs
+  COLLECTIONS_EDIT_ALL: 'COLLECTIONS_EDIT_ALL', // Edit any collection logs
+  COLLECTIONS_DELETE_OWN: 'COLLECTIONS_DELETE_OWN', // Delete own collection logs
+  COLLECTIONS_DELETE_ALL: 'COLLECTIONS_DELETE_ALL', // Delete any collection logs
+  COLLECTIONS_WALKTHROUGH: 'COLLECTIONS_WALKTHROUGH', // Simplified entry form
+
+  // PROJECTS - Project management
+  PROJECTS_VIEW: 'PROJECTS_VIEW',
+  PROJECTS_ADD: 'PROJECTS_ADD',
+  PROJECTS_EDIT_OWN: 'PROJECTS_EDIT_OWN', // Edit assigned/owned projects
+  PROJECTS_EDIT_ALL: 'PROJECTS_EDIT_ALL', // Edit any projects
+  PROJECTS_DELETE_OWN: 'PROJECTS_DELETE_OWN', // Delete assigned/owned projects
+  PROJECTS_DELETE_ALL: 'PROJECTS_DELETE_ALL', // Delete any projects
+  PROJECTS_TASK_ADD: 'PROJECTS_TASK_ADD', // Add standalone tasks
+  PROJECTS_TASK_EDIT_OWN: 'PROJECTS_TASK_EDIT_OWN', // Edit own standalone tasks
+  PROJECTS_TASK_EDIT_ALL: 'PROJECTS_TASK_EDIT_ALL', // Edit all standalone tasks
+  PROJECTS_TASK_DELETE_OWN: 'PROJECTS_TASK_DELETE_OWN', // Delete own standalone tasks
+  PROJECTS_TASK_DELETE_ALL: 'PROJECTS_TASK_DELETE_ALL', // Delete all standalone tasks
+
+  // DISTRIBUTIONS - Sandwich distribution tracking
+  DISTRIBUTIONS_VIEW: 'DISTRIBUTIONS_VIEW',
+  DISTRIBUTIONS_ADD: 'DISTRIBUTIONS_ADD',
+  DISTRIBUTIONS_EDIT: 'DISTRIBUTIONS_EDIT',
+  DISTRIBUTIONS_DELETE: 'DISTRIBUTIONS_DELETE',
+
+  // EVENT_REQUESTS - Event planning and requests
+  EVENT_REQUESTS_VIEW: 'EVENT_REQUESTS_VIEW',
+  EVENT_REQUESTS_ADD: 'EVENT_REQUESTS_ADD',
+  EVENT_REQUESTS_EDIT: 'EVENT_REQUESTS_EDIT',
+  EVENT_REQUESTS_DELETE: 'EVENT_REQUESTS_DELETE',
+  EVENT_REQUESTS_DELETE_CARD: 'EVENT_REQUESTS_DELETE_CARD', // Delete via card delete buttons
+  EVENT_REQUESTS_SYNC: 'EVENT_REQUESTS_SYNC', // Google Sheets sync
+  EVENT_REQUESTS_COMPLETE_CONTACT: 'EVENT_REQUESTS_COMPLETE_CONTACT', // Mark primary contact as completed
+
+  // EVENT_REQUESTS - Inline editing permissions for specific fields
+  EVENT_REQUESTS_INLINE_EDIT_TIMES: 'EVENT_REQUESTS_INLINE_EDIT_TIMES', // Edit event/pickup times inline
+  EVENT_REQUESTS_INLINE_EDIT_ADDRESS: 'EVENT_REQUESTS_INLINE_EDIT_ADDRESS', // Edit event address inline
+  EVENT_REQUESTS_INLINE_EDIT_SANDWICHES:
+    'EVENT_REQUESTS_INLINE_EDIT_SANDWICHES', // Edit sandwich count/types inline
+  EVENT_REQUESTS_INLINE_EDIT_STAFFING: 'EVENT_REQUESTS_INLINE_EDIT_STAFFING', // Edit drivers/speakers/volunteers needed inline
+  EVENT_REQUESTS_INLINE_EDIT_LOGISTICS: 'EVENT_REQUESTS_INLINE_EDIT_LOGISTICS', // Edit refrigeration and other logistics inline
+  EVENT_REQUESTS_INLINE_EDIT_ORG_DETAILS:
+    'EVENT_REQUESTS_INLINE_EDIT_ORG_DETAILS', // Edit organization name and department inline
+
+  // EVENT_REQUESTS - Self-signup and assignment permissions
+  EVENT_REQUESTS_SELF_SIGNUP: 'EVENT_REQUESTS_SELF_SIGNUP', // Sign up self for driver/speaker/volunteer roles
+  EVENT_REQUESTS_ASSIGN_OTHERS: 'EVENT_REQUESTS_ASSIGN_OTHERS', // Assign others to driver/speaker/volunteer roles
+  EVENT_REQUESTS_VIEW_ONLY: 'EVENT_REQUESTS_VIEW_ONLY', // View events with no edit/assignment capabilities
+  EVENT_REQUESTS_EDIT_ALL_DETAILS: 'EVENT_REQUESTS_EDIT_ALL_DETAILS', // Edit all event details (comprehensive editing)
+  EVENT_REQUESTS_SEND_TOOLKIT: 'EVENT_REQUESTS_SEND_TOOLKIT', // Send toolkit and mark events as scheduled
+  EVENT_REQUESTS_FOLLOW_UP: 'EVENT_REQUESTS_FOLLOW_UP', // Use follow-up buttons (1 day, 1 month)
+  EVENT_REQUESTS_EDIT_TSP_CONTACT: 'EVENT_REQUESTS_EDIT_TSP_CONTACT', // Edit TSP contact assignments
+  EVENT_REQUESTS_VIEW_ADMIN_OVERVIEW: 'EVENT_REQUESTS_VIEW_ADMIN_OVERVIEW', // View admin overview of all TSP contact assignments
+  EVENT_REQUESTS_SEND_SMS: 'EVENT_REQUESTS_SEND_SMS', // Send event details via SMS to users
+
+  // MESSAGES - Messaging system
+  MESSAGES_VIEW: 'MESSAGES_VIEW',
+  MESSAGES_SEND: 'MESSAGES_SEND',
+  MESSAGES_EDIT: 'MESSAGES_EDIT',
+  MESSAGES_DELETE: 'MESSAGES_DELETE',
+  MESSAGES_MODERATE: 'MESSAGES_MODERATE',
+
+  // WORK_LOGS - Work time logging
+  WORK_LOGS_VIEW: 'WORK_LOGS_VIEW', // View own work logs
+  WORK_LOGS_VIEW_ALL: 'WORK_LOGS_VIEW_ALL', // View all users' logs
+  WORK_LOGS_ADD: 'WORK_LOGS_ADD',
+  WORK_LOGS_EDIT_OWN: 'WORK_LOGS_EDIT_OWN', // Edit own work logs
+  WORK_LOGS_EDIT_ALL: 'WORK_LOGS_EDIT_ALL', // Edit any work logs
+  WORK_LOGS_DELETE_OWN: 'WORK_LOGS_DELETE_OWN', // Delete own work logs
+  WORK_LOGS_DELETE_ALL: 'WORK_LOGS_DELETE_ALL', // Delete any work logs
+
+  // SUGGESTIONS - Suggestion system
+  SUGGESTIONS_VIEW: 'SUGGESTIONS_VIEW',
+  SUGGESTIONS_ADD: 'SUGGESTIONS_ADD',
+  SUGGESTIONS_EDIT_OWN: 'SUGGESTIONS_EDIT_OWN', // Edit own suggestions
+  SUGGESTIONS_EDIT_ALL: 'SUGGESTIONS_EDIT_ALL', // Edit any suggestions
+  SUGGESTIONS_DELETE_OWN: 'SUGGESTIONS_DELETE_OWN', // Delete own suggestions
+  SUGGESTIONS_DELETE_ALL: 'SUGGESTIONS_DELETE_ALL', // Delete any suggestions
+  SUGGESTIONS_MANAGE: 'SUGGESTIONS_MANAGE', // Respond to suggestions
+
+  // AVAILABILITY - Team member availability calendar
+  AVAILABILITY_VIEW: 'AVAILABILITY_VIEW',
+  AVAILABILITY_ADD: 'AVAILABILITY_ADD',
+  AVAILABILITY_EDIT_OWN: 'AVAILABILITY_EDIT_OWN', // Edit own availability
+  AVAILABILITY_EDIT_ALL: 'AVAILABILITY_EDIT_ALL', // Edit any availability
+  AVAILABILITY_DELETE_OWN: 'AVAILABILITY_DELETE_OWN', // Delete own availability
+  AVAILABILITY_DELETE_ALL: 'AVAILABILITY_DELETE_ALL', // Delete any availability
+
+  // CHAT - Chat room access
+  CHAT_GENERAL: 'CHAT_GENERAL',
+  CHAT_COMMITTEE: 'CHAT_COMMITTEE', // General committee chat
+  CHAT_GRANTS_COMMITTEE: 'CHAT_GRANTS_COMMITTEE',
+  CHAT_EVENTS_COMMITTEE: 'CHAT_EVENTS_COMMITTEE',
+  CHAT_BOARD: 'CHAT_BOARD',
+  CHAT_WEB_COMMITTEE: 'CHAT_WEB_COMMITTEE',
+  CHAT_VOLUNTEER_MANAGEMENT: 'CHAT_VOLUNTEER_MANAGEMENT',
+  CHAT_HOST: 'CHAT_HOST',
+  CHAT_DRIVER: 'CHAT_DRIVER',
+  CHAT_RECIPIENT: 'CHAT_RECIPIENT',
+  CHAT_CORE_TEAM: 'CHAT_CORE_TEAM',
+  CHAT_DIRECT: 'CHAT_DIRECT',
+  CHAT_GROUP: 'CHAT_GROUP',
+  CHAT_GROUP_ADD_MEMBERS: 'CHAT_GROUP_ADD_MEMBERS', // Add members to group chats
+  CHAT_GROUP_REMOVE_MEMBERS: 'CHAT_GROUP_REMOVE_MEMBERS', // Remove members from group chats
+  CHAT_MODERATE_MESSAGES: 'CHAT_MODERATE_MESSAGES', // Edit/delete any user's messages (admin moderation)
+
+  // KUDOS - Kudos system
+  KUDOS_SEND: 'KUDOS_SEND',
+  KUDOS_RECEIVE: 'KUDOS_RECEIVE',
+  KUDOS_VIEW: 'KUDOS_VIEW',
+  KUDOS_MANAGE: 'KUDOS_MANAGE', // Admin management
+
+  // ANALYTICS - Dashboard analytics
+  ANALYTICS_VIEW: 'ANALYTICS_VIEW',
+  ANALYTICS_EXPORT: 'ANALYTICS_EXPORT',
+  ANALYTICS_ADVANCED: 'ANALYTICS_ADVANCED', // Access to advanced analytics features
+
+  // GRANT_METRICS - Grant reporting and metrics
+  GRANT_METRICS_VIEW: 'GRANT_METRICS_VIEW',
+  GRANT_METRICS_EXPORT: 'GRANT_METRICS_EXPORT',
+  GRANT_METRICS_EDIT: 'GRANT_METRICS_EDIT',
+
+  // COOLER_TRACKING - Cooler inventory management
+  COOLERS_VIEW: 'COOLERS_VIEW', // View all cooler inventory (everyone sees where coolers are)
+  COOLERS_REPORT: 'COOLERS_REPORT', // Report/update cooler location
+  COOLERS_MANAGE: 'COOLERS_MANAGE', // Admin: manage cooler types and settings
+
+  // HOLDING_ZONE - Holding Zone (Team Board) system
+
+  HOLDING_ZONE_VIEW: 'HOLDING_ZONE_VIEW', // View Holding Zone items
+  HOLDING_ZONE_ADD: 'HOLDING_ZONE_ADD', // Add new items to Holding Zone
+  HOLDING_ZONE_EDIT_OWN: 'HOLDING_ZONE_EDIT_OWN', // Edit own items
+  HOLDING_ZONE_EDIT_ALL: 'HOLDING_ZONE_EDIT_ALL', // Edit all items
+  HOLDING_ZONE_DELETE_OWN: 'HOLDING_ZONE_DELETE_OWN', // Delete own items
+  HOLDING_ZONE_DELETE_ALL: 'HOLDING_ZONE_DELETE_ALL', // Delete all items
+  HOLDING_ZONE_MANAGE: 'HOLDING_ZONE_MANAGE', // Manage categories and item status/functions
+  // Backward-compatible permission names (keep these for existing users/roles)
+  VIEW_HOLDING_ZONE: 'VIEW_HOLDING_ZONE', // View Holding Zone items
+  SUBMIT_HOLDING_ZONE: 'SUBMIT_HOLDING_ZONE', // Submit to Holding Zone
+  MANAGE_HOLDING_ZONE: 'MANAGE_HOLDING_ZONE', // Manage Holding Zone (categories, all items, all comments)
+  COMMENT_HOLDING_ZONE: 'COMMENT_HOLDING_ZONE', // Comment on Holding Zone items
+  EDIT_OWN_COMMENTS_HOLDING_ZONE: 'EDIT_OWN_COMMENTS_HOLDING_ZONE', // Edit own comments
+  DELETE_OWN_COMMENTS_HOLDING_ZONE: 'DELETE_OWN_COMMENTS_HOLDING_ZONE', // Delete own comments
+
+  // VOLUNTEER_CALENDAR - Google Calendar integration
+  VOLUNTEER_CALENDAR_VIEW: 'VOLUNTEER_CALENDAR_VIEW', // View volunteer calendar
+  VOLUNTEER_CALENDAR_SYNC: 'VOLUNTEER_CALENDAR_SYNC', // Sync with Google Calendar
+  VOLUNTEER_CALENDAR_MANAGE: 'VOLUNTEER_CALENDAR_MANAGE', // Manage calendar settings
+
+  // YEARLY_CALENDAR - TSP Yearly Calendar planning
+  YEARLY_CALENDAR_VIEW: 'YEARLY_CALENDAR_VIEW', // View yearly calendar
+  YEARLY_CALENDAR_ADD: 'YEARLY_CALENDAR_ADD', // Add new calendar items
+  YEARLY_CALENDAR_EDIT_OWN: 'YEARLY_CALENDAR_EDIT_OWN', // Edit own calendar items
+  YEARLY_CALENDAR_EDIT_ALL: 'YEARLY_CALENDAR_EDIT_ALL', // Edit any calendar item
+  YEARLY_CALENDAR_DELETE_OWN: 'YEARLY_CALENDAR_DELETE_OWN', // Delete own calendar items
+  YEARLY_CALENDAR_DELETE_ALL: 'YEARLY_CALENDAR_DELETE_ALL', // Delete any calendar item
+  // Legacy permission for backward compatibility
+  YEARLY_CALENDAR_EDIT: 'YEARLY_CALENDAR_EDIT', // Legacy: Add calendar items and edit/delete own items
+
+  // MEETINGS - Meeting management
+  MEETINGS_VIEW: 'MEETINGS_VIEW',
+  MEETINGS_ADD: 'MEETINGS_ADD',
+  MEETINGS_EDIT: 'MEETINGS_EDIT',
+  MEETINGS_DELETE: 'MEETINGS_DELETE',
+  MEETINGS_MANAGE: 'MEETINGS_MANAGE', // Legacy: full meeting management
+
+  // DOCUMENTS - Document management
+  DOCUMENTS_VIEW: 'DOCUMENTS_VIEW',
+  DOCUMENTS_MANAGE: 'DOCUMENTS_MANAGE',
+  DOCUMENTS_CONFIDENTIAL: 'DOCUMENTS_CONFIDENTIAL', // Access to confidential documents
+  DOCUMENTS_UPLOAD: 'DOCUMENTS_UPLOAD', // Upload documents (can delete own uploads)
+  DOCUMENTS_DELETE_ALL: 'DOCUMENTS_DELETE_ALL', // Delete any uploaded document
+
+  // DATA - Data import/export
+  DATA_EXPORT: 'DATA_EXPORT',
+  DATA_IMPORT: 'DATA_IMPORT',
+  DATA_DELETE_BULK: 'DATA_DELETE_BULK', // Bulk delete data
+
+  // RESOURCES - Resources and tools
+  RESOURCES_VIEW: 'RESOURCES_VIEW',
+  RESOURCES_EDIT: 'RESOURCES_EDIT',
+  TOOLKIT_VIEW: 'TOOLKIT_VIEW',
+  TOOLKIT_EDIT: 'TOOLKIT_EDIT',
+
+  // EXPENSES - Expenses and receipts management
+  EXPENSES_VIEW: 'EXPENSES_VIEW',
+  EXPENSES_ADD: 'EXPENSES_ADD',
+  EXPENSES_EDIT_OWN: 'EXPENSES_EDIT_OWN',
+  EXPENSES_EDIT_ALL: 'EXPENSES_EDIT_ALL',
+  EXPENSES_DELETE_OWN: 'EXPENSES_DELETE_OWN',
+  EXPENSES_DELETE_ALL: 'EXPENSES_DELETE_ALL',
+  EXPENSES_APPROVE: 'EXPENSES_APPROVE',
+
+  // ORGANIZATIONS - Organizations catalog
+  ORGANIZATIONS_VIEW: 'ORGANIZATIONS_VIEW',
+
+  // TOOLKIT - General toolkit access
+  TOOLKIT_ACCESS: 'TOOLKIT_ACCESS',
+
+  // NAVIGATION - Individual tab access permissions
+  NAV_MY_ACTIONS: 'NAV_MY_ACTIONS', // Access to My Actions tab
+  NAV_DASHBOARD: 'NAV_DASHBOARD', // Access to Dashboard tab
+  NAV_COLLECTIONS_LOG: 'NAV_COLLECTIONS_LOG', // Access to Collections Log tab
+  NAV_TEAM_CHAT: 'NAV_TEAM_CHAT', // Access to Team Chat tab
+  NAV_INBOX: 'NAV_INBOX', // Access to Inbox tab
+  NAV_SUGGESTIONS: 'NAV_SUGGESTIONS', // Access to Suggestions tab
+  NAV_HOSTS: 'NAV_HOSTS', // Access to Hosts tab
+  NAV_DRIVERS: 'NAV_DRIVERS', // Access to Drivers tab
+  NAV_VOLUNTEERS: 'NAV_VOLUNTEERS', // Access to Volunteers tab
+  NAV_RECIPIENTS: 'NAV_RECIPIENTS', // Access to Recipients tab
+  NAV_GROUPS_CATALOG: 'NAV_GROUPS_CATALOG', // Access to Groups Catalog tab
+  NAV_DISTRIBUTION_TRACKING: 'NAV_DISTRIBUTION_TRACKING', // Access to Distribution Tracking tab
+  NAV_INVENTORY_CALCULATOR: 'NAV_INVENTORY_CALCULATOR', // Access to Inventory Calculator tab
+  NAV_WORK_LOG: 'NAV_WORK_LOG', // Access to Work Log tab
+  NAV_EVENTS_GOOGLE_SHEET: 'NAV_EVENTS_GOOGLE_SHEET', // Access to Events Google Sheet tab
+  NAV_PROJECTS: 'NAV_PROJECTS', // Access to Projects tab
+  NAV_MEETINGS: 'NAV_MEETINGS', // Access to Meetings tab
+  NAV_EVENT_PLANNING: 'NAV_EVENT_PLANNING', // Access to Event Planning tab
+  NAV_DRIVER_PLANNING: 'NAV_DRIVER_PLANNING', // Access to Driver Planning tab
+  NAV_EVENT_REMINDERS: 'NAV_EVENT_REMINDERS', // Access to Event Reminders tab
+  NAV_ANALYTICS: 'NAV_ANALYTICS', // Access to Analytics tab
+  NAV_WEEKLY_MONITORING: 'NAV_WEEKLY_MONITORING', // Access to Weekly Monitoring tab
+  NAV_IMPORTANT_DOCUMENTS: 'NAV_IMPORTANT_DOCUMENTS', // Access to Important Documents tab
+  NAV_IMPORTANT_LINKS: 'NAV_IMPORTANT_LINKS', // Access to Quick Tools tab
+  NAV_TOOLKIT: 'NAV_TOOLKIT', // Access to Toolkit tab
+  NAV_DOCUMENT_MANAGEMENT: 'NAV_DOCUMENT_MANAGEMENT', // Access to Document Management tab
+  NAV_MY_AVAILABILITY: 'NAV_MY_AVAILABILITY', // Access to My Availability tab
+  NAV_TEAM_AVAILABILITY: 'NAV_TEAM_AVAILABILITY', // Access to Team Availability tab
+  NAV_VOLUNTEER_CALENDAR: 'NAV_VOLUNTEER_CALENDAR', // Access to Volunteer Calendar tab
+  NAV_YEARLY_CALENDAR: 'NAV_YEARLY_CALENDAR', // Access to TSP Yearly Calendar tab
+  NAV_GRANT_METRICS: 'NAV_GRANT_METRICS', // Access to Grant Metrics tab
+  NAV_SIGNUP_GENIUS: 'NAV_SIGNUP_GENIUS', // Access to Sign Up Genius tab
+  NAV_WISHLIST: 'NAV_WISHLIST', // Access to Amazon Wishlist tab
+  NAV_COOLER_TRACKING: 'NAV_COOLER_TRACKING', // Access to Cooler Tracking tab
+  NAV_ROUTE_MAP: 'NAV_ROUTE_MAP', // Access to Host Map tab
+  NAV_HISTORICAL_IMPORT: 'NAV_HISTORICAL_IMPORT', // Access to Historical Import tab
+  NAV_HELP: 'NAV_HELP', // Access to Help tab
+  NAV_USER_MANAGEMENT: 'NAV_USER_MANAGEMENT', // Access to User Management tab
+  NAV_TEAM_BOARD: 'NAV_TEAM_BOARD', // Access to Team Board tab
+  NAV_PROMOTION: 'NAV_PROMOTION', // Access to Promotion (Social Media Graphics) tab
+  NAV_QUICK_SMS_LINKS: 'NAV_QUICK_SMS_LINKS', // Access to Quick SMS Links tab
+  NAV_EXPENSES: 'NAV_EXPENSES', // Access to Expenses & Receipts tab
+  NAV_RESOURCES: 'NAV_RESOURCES', // Access to Resources tab
+  NAV_AUTO_FORM_FILLER: 'NAV_AUTO_FORM_FILLER', // Access to Auto Form Filler tab
+  NAV_SERVICE_HOURS_FORM: 'NAV_SERVICE_HOURS_FORM', // Access to Service Hours Form Generator
+  NAV_VOLUNTEER_HUB: 'NAV_VOLUNTEER_HUB', // Access to Volunteer Hub tab
+  NAV_HOST_RESOURCES: 'NAV_HOST_RESOURCES', // Access to Host Resources tab
+  NAV_MAPS: 'NAV_MAPS', // Access to Maps section
+  NAV_DIRECTORY: 'NAV_DIRECTORY', // Access to Directory tab
+  NAV_PARTNERS: 'NAV_PARTNERS', // Access to Partners tab
+  NAV_COLLECTIONS_REPORTING: 'NAV_COLLECTIONS_REPORTING', // Access to Collections Reporting section
+  NAV_WEEKLY_COLLECTIONS_REPORT: 'NAV_WEEKLY_COLLECTIONS_REPORT', // Access to Weekly Collections Report
+  NAV_GROUP_COLLECTIONS: 'NAV_GROUP_COLLECTIONS', // Access to Group Collections Viewer
+  NAV_EVENT_IMPACT_REPORTS: 'NAV_EVENT_IMPACT_REPORTS', // Access to Event Impact Reports
+  NAV_TOOLS: 'NAV_TOOLS', // Access to Tools section
+  NAV_SMART_SEARCH_ADMIN: 'NAV_SMART_SEARCH_ADMIN', // Access to SmartSearch AI admin
+  NAV_QUICK_TOOLS: 'NAV_QUICK_TOOLS', // Access to Quick Tools
+  NAV_DOCUMENTS: 'NAV_DOCUMENTS', // Access to Documents section
+
+  // ADMIN - Administrative access
+  ADMIN_PANEL_ACCESS: 'ADMIN_PANEL_ACCESS', // Access to admin panel/user management
+} as const;
+
+// Permission dependencies: When a permission is granted, these dependencies are automatically included
+export const PERMISSION_DEPENDENCIES: Record<string, string[]> = {
+  // Navigation permissions automatically grant their corresponding functional permissions
+  [PERMISSIONS.NAV_EVENT_PLANNING]: [PERMISSIONS.EVENT_REQUESTS_VIEW],
+  [PERMISSIONS.NAV_DRIVER_PLANNING]: [PERMISSIONS.EVENT_REQUESTS_VIEW, PERMISSIONS.DRIVERS_VIEW],
+  [PERMISSIONS.NAV_EVENTS_GOOGLE_SHEET]: [PERMISSIONS.EVENT_REQUESTS_VIEW],
+  [PERMISSIONS.NAV_HOSTS]: [PERMISSIONS.HOSTS_VIEW],
+  [PERMISSIONS.NAV_DRIVERS]: [PERMISSIONS.DRIVERS_VIEW],
+  [PERMISSIONS.NAV_VOLUNTEERS]: [PERMISSIONS.VOLUNTEERS_VIEW],
+  [PERMISSIONS.NAV_RECIPIENTS]: [PERMISSIONS.RECIPIENTS_VIEW],
+  [PERMISSIONS.NAV_COLLECTIONS_LOG]: [PERMISSIONS.COLLECTIONS_VIEW],
+  [PERMISSIONS.NAV_PROJECTS]: [PERMISSIONS.PROJECTS_VIEW],
+  [PERMISSIONS.NAV_MEETINGS]: [PERMISSIONS.MEETINGS_VIEW],
+  [PERMISSIONS.NAV_ANALYTICS]: [PERMISSIONS.ANALYTICS_VIEW],
+  [PERMISSIONS.NAV_SUGGESTIONS]: [PERMISSIONS.SUGGESTIONS_VIEW],
+  [PERMISSIONS.NAV_GROUPS_CATALOG]: [PERMISSIONS.ORGANIZATIONS_VIEW],
+  [PERMISSIONS.NAV_DISTRIBUTION_TRACKING]: [PERMISSIONS.DISTRIBUTIONS_VIEW],
+  [PERMISSIONS.NAV_WORK_LOG]: [PERMISSIONS.WORK_LOGS_VIEW],
+  [PERMISSIONS.NAV_TOOLKIT]: [PERMISSIONS.TOOLKIT_ACCESS],
+  [PERMISSIONS.NAV_DOCUMENT_MANAGEMENT]: [PERMISSIONS.DOCUMENTS_VIEW],
+  [PERMISSIONS.NAV_MY_AVAILABILITY]: [PERMISSIONS.AVAILABILITY_EDIT_OWN],
+  [PERMISSIONS.NAV_TEAM_AVAILABILITY]: [PERMISSIONS.AVAILABILITY_VIEW],
+  [PERMISSIONS.NAV_GRANT_METRICS]: [PERMISSIONS.GRANT_METRICS_VIEW],
+  [PERMISSIONS.NAV_COOLER_TRACKING]: [
+    PERMISSIONS.COOLERS_VIEW,
+    PERMISSIONS.COOLERS_REPORT,
+  ],
+  [PERMISSIONS.NAV_VOLUNTEER_CALENDAR]: [PERMISSIONS.VOLUNTEER_CALENDAR_VIEW],
+  [PERMISSIONS.NAV_YEARLY_CALENDAR]: [PERMISSIONS.YEARLY_CALENDAR_VIEW],
+  [PERMISSIONS.NAV_EXPENSES]: [PERMISSIONS.EXPENSES_VIEW],
+  [PERMISSIONS.NAV_EVENT_REMINDERS]: [PERMISSIONS.EVENT_REQUESTS_VIEW],
+  [PERMISSIONS.NAV_SIGNUP_GENIUS]: [PERMISSIONS.EVENT_REQUESTS_VIEW],
+  [PERMISSIONS.NAV_RESOURCES]: [PERMISSIONS.RESOURCES_VIEW],
+  [PERMISSIONS.NAV_HISTORICAL_IMPORT]: [PERMISSIONS.DATA_IMPORT],
+  [PERMISSIONS.NAV_USER_MANAGEMENT]: [PERMISSIONS.USERS_VIEW],
+  [PERMISSIONS.NAV_ROUTE_MAP]: [PERMISSIONS.HOSTS_VIEW],
+  [PERMISSIONS.NAV_VOLUNTEER_HUB]: [PERMISSIONS.VOLUNTEERS_VIEW],
+  [PERMISSIONS.NAV_HOST_RESOURCES]: [PERMISSIONS.HOSTS_VIEW],
+  [PERMISSIONS.NAV_MAPS]: [PERMISSIONS.EVENT_REQUESTS_VIEW],
+  [PERMISSIONS.NAV_DIRECTORY]: [PERMISSIONS.VOLUNTEERS_VIEW],
+  [PERMISSIONS.NAV_PARTNERS]: [PERMISSIONS.HOSTS_VIEW, PERMISSIONS.RECIPIENTS_VIEW],
+  [PERMISSIONS.NAV_COLLECTIONS_REPORTING]: [PERMISSIONS.COLLECTIONS_VIEW],
+  [PERMISSIONS.NAV_WEEKLY_COLLECTIONS_REPORT]: [PERMISSIONS.COLLECTIONS_VIEW],
+  [PERMISSIONS.NAV_GROUP_COLLECTIONS]: [PERMISSIONS.COLLECTIONS_VIEW],
+  [PERMISSIONS.NAV_EVENT_IMPACT_REPORTS]: [PERMISSIONS.EVENT_REQUESTS_VIEW],
+  [PERMISSIONS.NAV_DOCUMENTS]: [PERMISSIONS.DOCUMENTS_VIEW],
+  // Note: NAV_TOOLS, NAV_SMART_SEARCH_ADMIN, NAV_QUICK_TOOLS don't have separate functional permissions
+  // Note: NAV_INVENTORY_CALCULATOR, NAV_WEEKLY_MONITORING, NAV_TEAM_BOARD, NAV_PROMOTION,
+  // NAV_IMPORTANT_DOCUMENTS, NAV_IMPORTANT_LINKS, NAV_HELP, NAV_WISHLIST, and NAV_QUICK_SMS_LINKS
+  // don't have separate functional permissions - the nav permission itself grants access
+};
+
+// Helper function to apply permission dependencies
+export function applyPermissionDependencies(permissions: string[]): string[] {
+  const result = new Set(permissions);
+
+  // For each permission, add its dependencies
+  permissions.forEach((permission) => {
+    const dependencies = PERMISSION_DEPENDENCIES[permission];
+    if (dependencies) {
+      dependencies.forEach((dep) => result.add(dep));
+    }
+  });
+
+  return Array.from(result);
+}
+
+// Note: This application uses individual permission assignment, not role-based defaults
+// The getDefaultPermissionsForRole function is kept for backwards compatibility only
+
+export function getDefaultPermissionsForRole(role: string): string[] {
+  switch (role) {
+    case USER_ROLES.SUPER_ADMIN:
+      return Object.values(PERMISSIONS);
+
+    case USER_ROLES.ADMIN:
+      return Object.values(PERMISSIONS).filter(
+        (p) => p !== PERMISSIONS.MESSAGES_MODERATE
+      );
+
+    case USER_ROLES.COMMITTEE_MEMBER:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        // Core access permissions
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.ANALYTICS_VIEW,
+        PERMISSIONS.MEETINGS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.VOLUNTEERS_VIEW,
+
+        // Basic messaging and chat
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.CHAT_GRANTS_COMMITTEE,
+        PERMISSIONS.CHAT_EVENTS_COMMITTEE,
+        PERMISSIONS.CHAT_WEB_COMMITTEE,
+        PERMISSIONS.CHAT_VOLUNTEER_MANAGEMENT,
+
+        // Can create content
+        PERMISSIONS.SUGGESTIONS_ADD, // Can create suggestions + edit/delete own
+        PERMISSIONS.DATA_EXPORT,
+
+        // Availability permissions
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+
+        // Yearly Calendar permissions
+        PERMISSIONS.NAV_YEARLY_CALENDAR,
+        PERMISSIONS.YEARLY_CALENDAR_VIEW,
+        PERMISSIONS.YEARLY_CALENDAR_EDIT,
+
+        // Kudos system
+        PERMISSIONS.KUDOS_SEND,
+        PERMISSIONS.KUDOS_RECEIVE,
+        PERMISSIONS.KUDOS_VIEW,
+      ];
+
+    case USER_ROLES.HOST:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        // Directory access
+        PERMISSIONS.HOSTS_VIEW,
+        PERMISSIONS.RECIPIENTS_VIEW,
+
+        // Collections capability
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.COLLECTIONS_ADD, // Can create collections (automatically can edit/delete own)
+        PERMISSIONS.COLLECTIONS_WALKTHROUGH, // Can use simplified walkthrough for collections
+
+        // Chat permissions
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_HOST,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+
+        // Analytics and other access
+        PERMISSIONS.ANALYTICS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.SUGGESTIONS_ADD, // Can create suggestions (automatically can edit/delete own)
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.EVENT_REQUESTS_COMPLETE_CONTACT,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+
+        // Availability permissions
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+
+        // Yearly Calendar permissions
+        PERMISSIONS.NAV_YEARLY_CALENDAR,
+        PERMISSIONS.YEARLY_CALENDAR_VIEW,
+        PERMISSIONS.YEARLY_CALENDAR_EDIT,
+
+        // Kudos system
+        PERMISSIONS.KUDOS_SEND,
+        PERMISSIONS.KUDOS_RECEIVE,
+        PERMISSIONS.KUDOS_VIEW,
+      ];
+
+    case USER_ROLES.CORE_TEAM:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        // Core viewing permissions
+        PERMISSIONS.HOSTS_VIEW,
+        PERMISSIONS.RECIPIENTS_VIEW,
+        PERMISSIONS.DRIVERS_VIEW,
+        PERMISSIONS.VOLUNTEERS_VIEW,
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.ANALYTICS_VIEW,
+        PERMISSIONS.MEETINGS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+
+        // Management permissions
+        PERMISSIONS.HOSTS_EDIT,
+        PERMISSIONS.RECIPIENTS_EDIT,
+        PERMISSIONS.DRIVERS_EDIT,
+        PERMISSIONS.VOLUNTEERS_ADD,
+        PERMISSIONS.VOLUNTEERS_EDIT,
+        PERMISSIONS.VOLUNTEERS_DELETE,
+        PERMISSIONS.USERS_EDIT, // Core team can manage users
+        PERMISSIONS.DISTRIBUTIONS_EDIT,
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.EVENT_REQUESTS_EDIT,
+        PERMISSIONS.EVENT_REQUESTS_COMPLETE_CONTACT,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+        PERMISSIONS.SUGGESTIONS_MANAGE,
+
+        // Collection permissions
+        PERMISSIONS.COLLECTIONS_ADD,
+        PERMISSIONS.COLLECTIONS_WALKTHROUGH,
+
+        // Project permissions (includes meeting-project integration)
+        PERMISSIONS.PROJECTS_ADD,
+        PERMISSIONS.PROJECTS_EDIT_ALL, // Required for "Send to Agenda" and meeting notes
+        PERMISSIONS.MEETINGS_MANAGE, // Required for full meeting management
+
+        // Communication
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.MESSAGES_SEND,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_HOST,
+        PERMISSIONS.CHAT_CORE_TEAM,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.CHAT_GRANTS_COMMITTEE,
+        PERMISSIONS.CHAT_EVENTS_COMMITTEE,
+        PERMISSIONS.CHAT_WEB_COMMITTEE,
+        PERMISSIONS.CHAT_VOLUNTEER_MANAGEMENT,
+        PERMISSIONS.CHAT_BOARD,
+
+        // Data and analytics
+        PERMISSIONS.DATA_EXPORT,
+
+        // Availability permissions
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+
+        // Yearly Calendar permissions
+        PERMISSIONS.NAV_YEARLY_CALENDAR,
+        PERMISSIONS.YEARLY_CALENDAR_VIEW,
+        PERMISSIONS.YEARLY_CALENDAR_EDIT,
+
+        // Kudos system
+        PERMISSIONS.KUDOS_SEND,
+        PERMISSIONS.KUDOS_RECEIVE,
+        PERMISSIONS.KUDOS_VIEW,
+      ];
+
+    case USER_ROLES.DRIVER:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_DRIVER,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.SUGGESTIONS_ADD, // Can create suggestions (automatically can edit/delete own)
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+        PERMISSIONS.KUDOS_SEND,
+        PERMISSIONS.KUDOS_RECEIVE,
+        PERMISSIONS.KUDOS_VIEW,
+      ];
+
+    case USER_ROLES.VOLUNTEER:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.COLLECTIONS_ADD, // Can create collections (automatically can edit/delete own)
+        PERMISSIONS.COLLECTIONS_WALKTHROUGH, // Can use simplified walkthrough for collections
+        PERMISSIONS.PROJECTS_ADD, // Can create projects (automatically can edit/delete own)
+        PERMISSIONS.SUGGESTIONS_ADD, // Can create suggestions (automatically can edit/delete own)
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+        PERMISSIONS.KUDOS_SEND,
+        PERMISSIONS.KUDOS_RECEIVE,
+        PERMISSIONS.KUDOS_VIEW,
+      ];
+
+    case USER_ROLES.RECIPIENT:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_RECIPIENT,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.COLLECTIONS_WALKTHROUGH, // Can use simplified walkthrough for collections (recipients who help with collections)
+        PERMISSIONS.SUGGESTIONS_ADD, // Can create suggestions (automatically can edit/delete own)
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+        PERMISSIONS.KUDOS_RECEIVE, // Recipients can receive kudos but not send them by default
+        PERMISSIONS.KUDOS_VIEW,
+      ];
+
+    case USER_ROLES.DEMO_USER:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        // Can view all main sections but cannot edit/delete/manage anything
+        PERMISSIONS.HOSTS_VIEW,
+        PERMISSIONS.RECIPIENTS_VIEW,
+        PERMISSIONS.DRIVERS_VIEW,
+        PERMISSIONS.USERS_VIEW,
+        PERMISSIONS.DISTRIBUTIONS_VIEW,
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.MEETINGS_VIEW,
+        PERMISSIONS.ANALYTICS_VIEW,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.WORK_LOGS_VIEW,
+        PERMISSIONS.ANALYTICS_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.ADMIN_ACCESS,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.AVAILABILITY_VIEW,
+
+        // Chat permissions (read-only)
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.CHAT_GRANTS_COMMITTEE,
+        PERMISSIONS.CHAT_HOST,
+        PERMISSIONS.CHAT_DRIVER,
+        PERMISSIONS.CHAT_RECIPIENT,
+        PERMISSIONS.CHAT_CORE_TEAM,
+
+        // Can receive kudos but cannot send
+        PERMISSIONS.KUDOS_RECEIVE,
+        PERMISSIONS.KUDOS_VIEW,
+
+        // Export data for reporting
+        PERMISSIONS.DATA_EXPORT,
+      ];
+
+    case USER_ROLES.VIEWER:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.SUGGESTIONS_ADD, // Can create suggestions (automatically can edit/delete own)
+        PERMISSIONS.KUDOS_VIEW, // Viewers can only view kudos, not send or receive
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+      ];
+
+    case USER_ROLES.WORK_LOGGER:
+      return [
+        // Navigation permissions
+        PERMISSIONS.NAV_PROMOTION,
+
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.AVAILABILITY_ADD,
+        PERMISSIONS.AVAILABILITY_EDIT_OWN,
+        PERMISSIONS.AVAILABILITY_DELETE_OWN,
+        'log_work',
+      ];
+
+    case USER_ROLES.REVIEWER:
+      // Reviewer role: Full view access to everything, but NO edit/add/delete permissions
+      // This role is for external reviewers who need to see all functionality
+      // without being able to modify any data
+      return [
+        // All navigation permissions - reviewer can see every page
+        PERMISSIONS.NAV_MY_ACTIONS,
+        PERMISSIONS.NAV_DASHBOARD,
+        PERMISSIONS.NAV_COLLECTIONS_LOG,
+        PERMISSIONS.NAV_TEAM_CHAT,
+        PERMISSIONS.NAV_INBOX,
+        PERMISSIONS.NAV_SUGGESTIONS,
+        PERMISSIONS.NAV_HOSTS,
+        PERMISSIONS.NAV_DRIVERS,
+        PERMISSIONS.NAV_VOLUNTEERS,
+        PERMISSIONS.NAV_RECIPIENTS,
+        PERMISSIONS.NAV_GROUPS_CATALOG,
+        PERMISSIONS.NAV_DISTRIBUTION_TRACKING,
+        PERMISSIONS.NAV_INVENTORY_CALCULATOR,
+        PERMISSIONS.NAV_WORK_LOG,
+        PERMISSIONS.NAV_EVENTS_GOOGLE_SHEET,
+        PERMISSIONS.NAV_PROJECTS,
+        PERMISSIONS.NAV_MEETINGS,
+        PERMISSIONS.NAV_EVENT_PLANNING,
+        PERMISSIONS.NAV_DRIVER_PLANNING,
+        PERMISSIONS.NAV_EVENT_REMINDERS,
+        PERMISSIONS.NAV_ANALYTICS,
+        PERMISSIONS.NAV_WEEKLY_MONITORING,
+        PERMISSIONS.NAV_IMPORTANT_DOCUMENTS,
+        PERMISSIONS.NAV_IMPORTANT_LINKS,
+        PERMISSIONS.NAV_TOOLKIT,
+        PERMISSIONS.NAV_DOCUMENT_MANAGEMENT,
+        PERMISSIONS.NAV_MY_AVAILABILITY,
+        PERMISSIONS.NAV_TEAM_AVAILABILITY,
+        PERMISSIONS.NAV_VOLUNTEER_CALENDAR,
+        PERMISSIONS.NAV_YEARLY_CALENDAR,
+        PERMISSIONS.NAV_GRANT_METRICS,
+        PERMISSIONS.NAV_SIGNUP_GENIUS,
+        PERMISSIONS.NAV_WISHLIST,
+        PERMISSIONS.NAV_COOLER_TRACKING,
+        PERMISSIONS.NAV_ROUTE_MAP,
+        PERMISSIONS.NAV_HELP,
+        PERMISSIONS.NAV_USER_MANAGEMENT,
+        PERMISSIONS.NAV_TEAM_BOARD,
+        PERMISSIONS.NAV_PROMOTION,
+        PERMISSIONS.NAV_QUICK_SMS_LINKS,
+        PERMISSIONS.NAV_EXPENSES,
+        PERMISSIONS.NAV_RESOURCES,
+        PERMISSIONS.NAV_AUTO_FORM_FILLER,
+        PERMISSIONS.NAV_SERVICE_HOURS_FORM,
+        PERMISSIONS.NAV_VOLUNTEER_HUB,
+        PERMISSIONS.NAV_HOST_RESOURCES,
+        PERMISSIONS.NAV_MAPS,
+        PERMISSIONS.NAV_DIRECTORY,
+        PERMISSIONS.NAV_PARTNERS,
+        PERMISSIONS.NAV_COLLECTIONS_REPORTING,
+        PERMISSIONS.NAV_WEEKLY_COLLECTIONS_REPORT,
+        PERMISSIONS.NAV_GROUP_COLLECTIONS,
+        PERMISSIONS.NAV_EVENT_IMPACT_REPORTS,
+        PERMISSIONS.NAV_TOOLS,
+        PERMISSIONS.NAV_SMART_SEARCH_ADMIN,
+        PERMISSIONS.NAV_QUICK_TOOLS,
+        PERMISSIONS.NAV_DOCUMENTS,
+
+        // All VIEW permissions - can see everything
+        PERMISSIONS.ADMIN_ACCESS,
+        PERMISSIONS.CONTACTS_VIEW,
+        PERMISSIONS.HOSTS_VIEW,
+        PERMISSIONS.RECIPIENTS_VIEW,
+        PERMISSIONS.DRIVERS_VIEW,
+        PERMISSIONS.VOLUNTEERS_VIEW,
+        PERMISSIONS.USERS_VIEW,
+        PERMISSIONS.COLLECTIONS_VIEW,
+        PERMISSIONS.PROJECTS_VIEW,
+        PERMISSIONS.DISTRIBUTIONS_VIEW,
+        PERMISSIONS.EVENT_REQUESTS_VIEW,
+        PERMISSIONS.MESSAGES_VIEW,
+        PERMISSIONS.WORK_LOGS_VIEW,
+        PERMISSIONS.WORK_LOGS_VIEW_ALL,
+        PERMISSIONS.SUGGESTIONS_VIEW,
+        PERMISSIONS.AVAILABILITY_VIEW,
+        PERMISSIONS.ANALYTICS_VIEW,
+        PERMISSIONS.GRANT_METRICS_VIEW,
+        PERMISSIONS.COOLERS_VIEW,
+        PERMISSIONS.HOLDING_ZONE_VIEW,
+        PERMISSIONS.VIEW_HOLDING_ZONE,
+        PERMISSIONS.VOLUNTEER_CALENDAR_VIEW,
+        PERMISSIONS.YEARLY_CALENDAR_VIEW,
+        PERMISSIONS.MEETINGS_VIEW,
+        PERMISSIONS.DOCUMENTS_VIEW,
+        PERMISSIONS.RESOURCES_VIEW,
+        PERMISSIONS.TOOLKIT_VIEW,
+        PERMISSIONS.TOOLKIT_ACCESS,
+        PERMISSIONS.EXPENSES_VIEW,
+        PERMISSIONS.ORGANIZATIONS_VIEW,
+        PERMISSIONS.KUDOS_VIEW,
+        PERMISSIONS.ANALYTICS_ADVANCED,
+
+        // Chat VIEW permissions - can see all chat rooms
+        PERMISSIONS.CHAT_GENERAL,
+        PERMISSIONS.CHAT_COMMITTEE,
+        PERMISSIONS.CHAT_GRANTS_COMMITTEE,
+        PERMISSIONS.CHAT_EVENTS_COMMITTEE,
+        PERMISSIONS.CHAT_BOARD,
+        PERMISSIONS.CHAT_WEB_COMMITTEE,
+        PERMISSIONS.CHAT_VOLUNTEER_MANAGEMENT,
+        PERMISSIONS.CHAT_HOST,
+        PERMISSIONS.CHAT_DRIVER,
+        PERMISSIONS.CHAT_RECIPIENT,
+        PERMISSIONS.CHAT_CORE_TEAM,
+        PERMISSIONS.CHAT_DIRECT,
+        PERMISSIONS.CHAT_GROUP,
+
+        // Can export data for reporting purposes
+        PERMISSIONS.DATA_EXPORT,
+        PERMISSIONS.ANALYTICS_EXPORT,
+        PERMISSIONS.GRANT_METRICS_EXPORT,
+
+        // Admin panel access to see user management UI
+        PERMISSIONS.ADMIN_PANEL_ACCESS,
+
+        // NOTE: Reviewer does NOT have any _ADD, _EDIT, _DELETE, _MANAGE, _SEND, _SYNC permissions
+        // All write operations will be blocked by the client-side ReviewerContext
+      ];
+
+    default:
+      return [];
+  }
+}
+
+// Chat room to permission mapping
+export const CHAT_PERMISSIONS = {
+  general: PERMISSIONS.CHAT_GENERAL,
+  committee: PERMISSIONS.CHAT_GRANTS_COMMITTEE,
+  host: PERMISSIONS.CHAT_HOST, // Fixed: singular to match frontend
+  hosts: PERMISSIONS.CHAT_HOST, // Keep plural for backwards compatibility
+  driver: PERMISSIONS.CHAT_DRIVER, // Fixed: singular to match frontend
+  drivers: PERMISSIONS.CHAT_DRIVER, // Keep plural for backwards compatibility
+  recipient: PERMISSIONS.CHAT_RECIPIENT,
+  recipients: PERMISSIONS.CHAT_RECIPIENT,
+  core_team: PERMISSIONS.CHAT_CORE_TEAM,
+  'core-team': PERMISSIONS.CHAT_CORE_TEAM, // Also support kebab-case from frontend
+  direct: PERMISSIONS.CHAT_DIRECT,
+  groups: PERMISSIONS.CHAT_GROUP,
+} as const;
+
+// Function to check if user has access to a specific chat room
+export function hasAccessToChat(
+  user: UserForPermissions | null | undefined,
+  chatRoom: string
+): boolean {
+  if (!user || !user.permissions) return false;
+
+  const requiredPermission =
+    CHAT_PERMISSIONS[chatRoom as keyof typeof CHAT_PERMISSIONS];
+  if (!requiredPermission) return false;
+
+  // Simple permission check without the unified utils
+  if (!user.permissions) return false;
+
+  if (Array.isArray(user.permissions)) {
+    return user.permissions.includes(requiredPermission);
+  }
+
+  if (typeof user.permissions === 'number') {
+    // SECURITY FIX: Numeric permissions are not supported - deny access
+    // Users with numeric format must be migrated to string array format
+    console.error(
+      `🚨 SECURITY: User has unsupported numeric permissions (${user.permissions}) - access denied. Must migrate to array format.`
+    );
+    return false;
+  }
+
+  return false;
+}
+
+// NOTE: hasPermission has been removed from auth-utils.ts
+// Use the unified hasPermission from unified-auth-utils.ts instead:
+// import { hasPermission } from '@shared/unified-auth-utils';
+
+// Function to check if user can edit a specific collection entry
+export function canEditCollection(
+  user: UserForPermissions | null | undefined,
+  collection: ResourceWithOwner | null | undefined
+): boolean {
+  // Simple ownership check without unified utils to avoid import issues
+  if (!user || !user.permissions) return false;
+
+  // Check if user has edit all permission
+  if (
+    Array.isArray(user.permissions) &&
+    user.permissions.includes(PERMISSIONS.COLLECTIONS_EDIT_ALL)
+  ) {
+    return true;
+  }
+
+  // Check if user owns the collection and has edit own permission
+  const resourceOwnerId = collection?.createdBy || collection?.created_by;
+  if (
+    resourceOwnerId === user.id &&
+    Array.isArray(user.permissions) &&
+    user.permissions.includes(PERMISSIONS.COLLECTIONS_EDIT_OWN)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+// Function to check if user can delete a specific collection entry
+export function canDeleteCollection(
+  user: UserForPermissions | null | undefined,
+  collection: ResourceWithOwner | null | undefined
+): boolean {
+  // Simple ownership check without unified utils to avoid import issues
+  if (!user || !user.permissions) return false;
+
+  // Check if user has delete all permission
+  if (
+    Array.isArray(user.permissions) &&
+    user.permissions.includes(PERMISSIONS.COLLECTIONS_DELETE_ALL)
+  ) {
+    return true;
+  }
+
+  // Check if user owns the collection and has delete own permission
+  const resourceOwnerId = collection?.createdBy || collection?.created_by;
+  if (
+    resourceOwnerId === user.id &&
+    Array.isArray(user.permissions) &&
+    user.permissions.includes(PERMISSIONS.COLLECTIONS_DELETE_OWN)
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+// Function to check if user can edit a specific project
+const normalizeToString = (value: unknown): string | null => {
+  if (value === null || value === undefined) {
+    return null;
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+
+  if (typeof value === 'number' || typeof value === 'bigint') {
+    return value.toString();
+  }
+
+  return null;
+};
+
+const normalizeIdArray = (value: unknown): string[] => {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+    return value
+      .map((id) => normalizeToString(id))
+      .filter((id): id is string => Boolean(id));
+  }
+
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) return [];
+
+    if (trimmed.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) {
+          return normalizeIdArray(parsed);
+        }
+      } catch {
+        // Ignore JSON parse errors and fall back to comma-separated parsing
+      }
+    }
+
+    return trimmed
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+};
+
+const parseNameList = (value: unknown): string[] => {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+    return value
+      .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+      .filter(Boolean);
+  }
+
+  if (typeof value === 'string') {
+    return value
+      .split(',')
+      .map((part) => part.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+};
+
+export function isProjectOwnerOrAssignee(
+  user: UserForPermissions | null | undefined,
+  project: ProjectResource | null | undefined
+): boolean {
+  if (!user || !project) return false;
+
+  const userId = normalizeToString(user.id);
+  if (!userId) return false;
+
+  const creatorIds = [
+    normalizeToString(project?.createdBy),
+    normalizeToString(project?.created_by),
+  ].filter((id): id is string => Boolean(id));
+
+  if (creatorIds.includes(userId)) {
+    return true;
+  }
+
+  const assigneeIdSet = new Set<string>();
+
+  normalizeIdArray(project?.assigneeIds).forEach((id) => assigneeIdSet.add(id));
+  normalizeIdArray(project?.assignee_ids).forEach((id) =>
+    assigneeIdSet.add(id)
+  );
+  normalizeIdArray(project?.supportPeopleIds).forEach((id) =>
+    assigneeIdSet.add(id)
+  );
+  normalizeIdArray(project?.support_people_ids).forEach((id) =>
+    assigneeIdSet.add(id)
+  );
+
+  const legacyAssigneeId = normalizeToString(
+    project?.assigneeId ?? project?.assignee_id
+  );
+  if (legacyAssigneeId) {
+    assigneeIdSet.add(legacyAssigneeId);
+  }
+
+  if (assigneeIdSet.has(userId)) {
+    return true;
+  }
+
+  return false;
+}
+
+export function canEditProject(
+  user: UserForPermissions | null | undefined,
+  project: ProjectResource | null | undefined
+): boolean {
+  if (!user) return false;
+
+  const userPermissions = Array.isArray(user.permissions)
+    ? user.permissions
+    : [];
+
+  // Super admins and users with EDIT_ALL_PROJECTS or MANAGE_ALL_PROJECTS can edit all projects
+  if (
+    user.role === 'super_admin' ||
+    userPermissions.includes(PERMISSIONS.PROJECTS_EDIT_ALL) ||
+    userPermissions.includes('MANAGE_ALL_PROJECTS')
+  ) {
+    return true;
+  }
+
+  const hasOwnLevelPermission =
+    userPermissions.includes(PERMISSIONS.PROJECTS_EDIT_OWN) ||
+    userPermissions.includes(PERMISSIONS.PROJECTS_ADD);
+
+  if (!hasOwnLevelPermission) {
+    return false;
+  }
+
+  if (isProjectOwnerOrAssignee(user, project)) {
+    return true;
+  }
+
+  const projectNames = new Set(
+    [
+      ...parseNameList(project?.assigneeName),
+      ...parseNameList(project?.assigneeNames),
+      ...parseNameList(project?.supportPeople),
+    ]
+      .map((name) => name.toLowerCase())
+      .filter(Boolean)
+  );
+
+  if (projectNames.size > 0) {
+    const userAsAny = user as any; // Temporary for accessing optional user properties
+    const candidateNames = [
+      [userAsAny.firstName, userAsAny.lastName]
+        .filter(Boolean)
+        .join(' ')
+        .trim(),
+      userAsAny.displayName,
+      userAsAny.preferredEmail,
+      user.email,
+    ]
+      .filter((value): value is string => Boolean(value))
+      .map((value) => value.trim().toLowerCase())
+      .filter(Boolean);
+
+    if (candidateNames.some((candidate) => projectNames.has(candidate))) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+// Function to check if user can delete a specific project
+export function canDeleteProject(
+  user: UserForPermissions | null | undefined,
+  project: ProjectResource | null | undefined
+): boolean {
+  if (!user || !user.permissions) return false;
+
+  // Super admins and users with DELETE_ALL_PROJECTS can delete all projects
+  if (
+    user.role === 'super_admin' ||
+    user.permissions.includes(PERMISSIONS.PROJECTS_DELETE_ALL)
+  )
+    return true;
+
+  // Users with CREATE_PROJECTS can only delete projects they created (not assigned ones)
+  if (
+    user.permissions.includes(PERMISSIONS.PROJECTS_ADD) &&
+    (project?.createdBy === user.id || project?.created_by === user.id)
+  )
+    return true;
+
+  return false;
+}
+
+// Function to check if user can edit a specific suggestion entry
+export function canEditSuggestion(
+  user: UserForPermissions | null | undefined,
+  suggestion: SuggestionResource | null | undefined
+): boolean {
+  if (!user || !user.permissions) return false;
+
+  // Super admins and users with EDIT_ALL_SUGGESTIONS can edit all suggestions
+  if (
+    user.role === 'super_admin' ||
+    user.permissions.includes(PERMISSIONS.SUGGESTIONS_EDIT_ALL)
+  )
+    return true;
+
+  // Users with CREATE_SUGGESTIONS can edit suggestions they created
+  if (
+    user.permissions.includes(PERMISSIONS.SUGGESTIONS_ADD) &&
+    (suggestion?.createdBy === user.id ||
+      suggestion?.created_by === user.id ||
+      suggestion?.submittedBy === user.id)
+  )
+    return true;
+
+  return false;
+}
+
+// Function to check if user can delete a specific suggestion entry
+export function canDeleteSuggestion(
+  user: UserForPermissions | null | undefined,
+  suggestion: SuggestionResource | null | undefined
+): boolean {
+  if (!user || !user.permissions) return false;
+
+  // Super admins and users with DELETE_ALL_SUGGESTIONS can delete all suggestions
+  if (
+    user.role === 'super_admin' ||
+    user.permissions.includes(PERMISSIONS.SUGGESTIONS_DELETE_ALL)
+  )
+    return true;
+
+  // Users with CREATE_SUGGESTIONS can delete suggestions they created
+  if (
+    user.permissions.includes(PERMISSIONS.SUGGESTIONS_ADD) &&
+    (suggestion?.createdBy === user.id ||
+      suggestion?.created_by === user.id ||
+      suggestion?.submittedBy === user.id)
+  )
+    return true;
+
+  return false;
+}
+
+// Function to check if user can edit a specific work log entry
+export function canEditWorkLog(
+  user: UserForPermissions | null | undefined,
+  workLog: WorkLogResource | null | undefined
+): boolean {
+  if (!user || !user.permissions) return false;
+
+  // Super admins and users with EDIT_ALL_WORK_LOGS can edit all work logs
+  if (
+    user.role === 'super_admin' ||
+    user.permissions.includes(PERMISSIONS.WORK_LOGS_EDIT_ALL)
+  )
+    return true;
+
+  // Users with CREATE_WORK_LOGS can edit work logs they created
+  if (
+    user.permissions.includes(PERMISSIONS.WORK_LOGS_ADD) &&
+    (workLog?.createdBy === user.id ||
+      workLog?.created_by === user.id ||
+      workLog?.userId === user.id)
+  )
+    return true;
+
+  return false;
+}
+
+// Function to check if user can delete a specific work log entry
+export function canDeleteWorkLog(
+  user: UserForPermissions | null | undefined,
+  workLog: WorkLogResource | null | undefined
+): boolean {
+  if (!user || !user.permissions) return false;
+
+  // Super admins and users with DELETE_ALL_WORK_LOGS can delete all work logs
+  if (
+    user.role === 'super_admin' ||
+    user.permissions.includes(PERMISSIONS.WORK_LOGS_DELETE_ALL)
+  )
+    return true;
+
+  // Users with CREATE_WORK_LOGS can delete work logs they created
+  if (
+    user.permissions.includes(PERMISSIONS.WORK_LOGS_ADD) &&
+    (workLog?.createdBy === user.id ||
+      workLog?.created_by === user.id ||
+      workLog?.userId === user.id)
+  )
+    return true;
+
+  return false;
+}
+
+// Function to get human-readable role display name
+export function getRoleDisplayName(role: string): string {
+  switch (role) {
+    case USER_ROLES.SUPER_ADMIN:
+      return 'Super Administrator';
+    case USER_ROLES.ADMIN:
+      return 'Administrator';
+    case USER_ROLES.COMMITTEE_MEMBER:
+      return 'Committee Member';
+    case USER_ROLES.CORE_TEAM:
+      return 'Core Team';
+    case USER_ROLES.HOST:
+      return 'Host Location';
+    case USER_ROLES.DRIVER:
+      return 'Delivery Driver';
+    case USER_ROLES.VOLUNTEER:
+      return 'Volunteer';
+    case USER_ROLES.RECIPIENT:
+      return 'Recipient Organization';
+    case USER_ROLES.VIEWER:
+      return 'Viewer';
+    case USER_ROLES.WORK_LOGGER:
+      return 'Work Logger';
+    case USER_ROLES.DEMO_USER:
+      return 'Demo User';
+    case USER_ROLES.REVIEWER:
+      return 'Reviewer (Read-Only)';
+    default:
+      return role.charAt(0).toUpperCase() + role.slice(1).replace('_', ' ');
+  }
+}
+
+// Check if user has the reviewer role (read-only access)
+export function isReviewerRole(user: UserForPermissions | null | undefined): boolean {
+  return user?.role === USER_ROLES.REVIEWER;
+}

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #logs {
+            height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 20px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Connection Test</h1>
+    <p>This page tests the WebSocket connections that were fixed for The Sandwich Project.</p>
+    
+    <div id="results"></div>
+    
+    <button onclick="testNotificationWebSocket()">Test Notification WebSocket</button>
+    <button onclick="testSocketIOConnection()">Test Socket.IO Connection</button>
+    <button onclick="clearLogs()">Clear Logs</button>
+    
+    <h3>Connection Logs:</h3>
+    <div id="logs"></div>
+
+    <script>
+        let notificationWS = null;
+        let socketIO = null;
+        
+        function log(message, type = 'info') {
+            const logsDiv = document.getElementById('logs');
+            const timestamp = new Date().toLocaleTimeString();
+            logsDiv.innerHTML += `<div class="${type}">[${timestamp}] ${message}</div>`;
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+        }
+        
+        function addResult(message, success) {
+            const resultsDiv = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${success ? 'success' : 'error'}`;
+            div.textContent = message;
+            resultsDiv.appendChild(div);
+        }
+        
+        // Test the notification WebSocket using our fixed URL construction logic
+        function testNotificationWebSocket() {
+            log('Testing notification WebSocket connection...', 'info');
+            
+            // Use the same URL construction logic from our WebSocket helper
+            function getWebSocketUrl() {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const hostname = window.location.hostname;
+                const port = window.location.port;
+                
+                log(`URL Construction Debug: hostname=${hostname}, port=${port}, protocol=${protocol}`, 'info');
+                
+                let host;
+                if (hostname.includes('replit.dev') || hostname.includes('replit.com') || hostname.includes('replit.app') || hostname.includes('spock.replit.dev')) {
+                    host = port ? `${hostname}:${port}` : hostname;
+                    log(`Detected Replit environment, using host: ${host}`, 'info');
+                } else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                    const resolvedPort = port || '5000';
+                    host = `${hostname}:${resolvedPort}`;
+                    log(`Detected localhost environment, using host: ${host}`, 'info');
+                } else if (hostname) {
+                    host = port ? `${hostname}:${port}` : hostname;
+                    log(`Detected other environment, using host: ${host}`, 'info');
+                } else {
+                    host = 'localhost:5000';
+                    log(`Unable to detect hostname, using fallback: ${host}`, 'info');
+                }
+                
+                return `${protocol}//${host}/notifications`;
+            }
+            
+            try {
+                const wsUrl = getWebSocketUrl();
+                log(`Attempting to connect to: ${wsUrl}`, 'info');
+                
+                notificationWS = new WebSocket(wsUrl);
+                
+                notificationWS.onopen = function() {
+                    log('✅ Notification WebSocket connected successfully!', 'success');
+                    addResult('Notification WebSocket: Connection successful', true);
+                    
+                    // Send identify message
+                    const identifyMsg = JSON.stringify({
+                        type: 'identify',
+                        userId: 'test-user'
+                    });
+                    notificationWS.send(identifyMsg);
+                    log(`Sent identify message: ${identifyMsg}`, 'info');
+                };
+                
+                notificationWS.onmessage = function(event) {
+                    log(`📨 Received message: ${event.data}`, 'info');
+                };
+                
+                notificationWS.onerror = function(error) {
+                    log(`❌ WebSocket error: ${error}`, 'error');
+                    addResult('Notification WebSocket: Connection error', false);
+                };
+                
+                notificationWS.onclose = function(event) {
+                    log(`🔌 WebSocket closed: code=${event.code}, reason=${event.reason}`, 'info');
+                    if (event.code !== 1000) {
+                        addResult(`Notification WebSocket: Closed unexpectedly (${event.code})`, false);
+                    }
+                };
+                
+            } catch (error) {
+                log(`❌ Failed to create WebSocket: ${error.message}`, 'error');
+                addResult(`Notification WebSocket: Failed to create - ${error.message}`, false);
+            }
+        }
+        
+        // Test Socket.IO connection (for chat)
+        function testSocketIOConnection() {
+            log('Testing Socket.IO connection...', 'info');
+            
+            if (typeof io === 'undefined') {
+                log('❌ Socket.IO library not loaded', 'error');
+                addResult('Socket.IO: Library not available (this is expected for this test)', false);
+                return;
+            }
+            
+            try {
+                const socketUrl = window.location.origin;
+                log(`Attempting Socket.IO connection to: ${socketUrl}`, 'info');
+                
+                socketIO = io(socketUrl, {
+                    path: '/socket.io/',
+                    transports: ['polling', 'websocket'],
+                    timeout: 10000
+                });
+                
+                socketIO.on('connect', function() {
+                    log('✅ Socket.IO connected successfully!', 'success');
+                    addResult('Socket.IO: Connection successful', true);
+                });
+                
+                socketIO.on('disconnect', function() {
+                    log('🔌 Socket.IO disconnected', 'info');
+                });
+                
+                socketIO.on('connect_error', function(error) {
+                    log(`❌ Socket.IO connection error: ${error}`, 'error');
+                    addResult('Socket.IO: Connection error', false);
+                });
+                
+            } catch (error) {
+                log(`❌ Failed to create Socket.IO connection: ${error.message}`, 'error');
+                addResult(`Socket.IO: Failed to create - ${error.message}`, false);
+            }
+        }
+        
+        function clearLogs() {
+            document.getElementById('logs').innerHTML = '';
+            document.getElementById('results').innerHTML = '';
+        }
+        
+        // Auto-test on page load
+        window.onload = function() {
+            log('🚀 WebSocket Connection Test Page Loaded', 'info');
+            log(`Current location: ${window.location.href}`, 'info');
+            log(`Protocol: ${window.location.protocol}, Host: ${window.location.host}`, 'info');
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+/* ========================================
+   COMPREHENSIVE MOBILE RESPONSIVE STYLES
+   ======================================== */
+
+/* ==========================================
+   1. GLOBAL MOBILE LAYOUT UTILITIES
+   ========================================== */
+@media (max-width: 768px) {
+  /* Force mobile-friendly box sizing */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  /* Mobile-safe containers */
+  .mobile-container {
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .mobile-container-tight {
+    width: 100% !important;
+    max-width: 100vw !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Full-width mobile sections */
+  .mobile-full-width {
+    width: 100vw !important;
+    margin-left: calc(-50vw + 50%) !important;
+    margin-right: calc(-50vw + 50%) !important;
+  }
+}
+
+/* ==========================================
+   2. MOBILE TYPOGRAPHY
+   ========================================== */
+@media (max-width: 768px) {
+  /* Responsive headings */
+  .mobile-heading-xl {
+    font-size: 1.875rem !important; /* 30px */
+    line-height: 2.25rem !important;
+    font-weight: 700 !important;
+  }
+
+  .mobile-heading-lg {
+    font-size: 1.5rem !important; /* 24px */
+    line-height: 2rem !important;
+    font-weight: 600 !important;
+  }
+
+  .mobile-heading-md {
+    font-size: 1.25rem !important; /* 20px */
+    line-height: 1.75rem !important;
+    font-weight: 600 !important;
+  }
+
+  .mobile-heading-sm {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.5rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Body text */
+  .mobile-text-base {
+    font-size: 1rem !important; /* 16px */
+    line-height: 1.5rem !important;
+  }
+
+  .mobile-text-sm {
+    font-size: 0.875rem !important; /* 14px */
+    line-height: 1.25rem !important;
+  }
+
+  .mobile-text-xs {
+    font-size: 0.75rem !important; /* 12px */
+    line-height: 1rem !important;
+  }
+
+  /* Prevent text overflow */
+  .mobile-text-wrap {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+  }
+
+  .mobile-text-truncate {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+}
+
+/* ==========================================
+   3. MOBILE GRID & FLEX LAYOUTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Force single column grids */
+  .mobile-grid-1 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .mobile-grid-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  /* Stack flex containers vertically */
+  .mobile-flex-col {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .mobile-flex-wrap {
+    flex-wrap: wrap !important;
+  }
+
+  /* Full width flex items */
+  .mobile-flex-full {
+    flex: 1 1 100% !important;
+    width: 100% !important;
+  }
+
+  /* Hide elements on mobile */
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  /* Show only on mobile */
+  .mobile-only {
+    display: block !important;
+  }
+}
+
+/* Hide mobile-only elements on desktop */
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+/* ==========================================
+   4. MOBILE SPACING UTILITIES
+   ========================================== */
+@media (max-width: 768px) {
+  .mobile-p-0 { padding: 0 !important; }
+  .mobile-p-2 { padding: 0.5rem !important; }
+  .mobile-p-3 { padding: 0.75rem !important; }
+  .mobile-p-4 { padding: 1rem !important; }
+  .mobile-p-6 { padding: 1.5rem !important; }
+
+  .mobile-px-2 { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+  .mobile-px-3 { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .mobile-px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+
+  .mobile-py-2 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+  .mobile-py-3 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+  .mobile-py-4 { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+
+  .mobile-m-0 { margin: 0 !important; }
+  .mobile-m-2 { margin: 0.5rem !important; }
+  .mobile-m-4 { margin: 1rem !important; }
+
+  .mobile-mx-auto { margin-left: auto !important; margin-right: auto !important; }
+
+  .mobile-mt-0 { margin-top: 0 !important; }
+  .mobile-mt-2 { margin-top: 0.5rem !important; }
+  .mobile-mt-4 { margin-top: 1rem !important; }
+
+  .mobile-mb-2 { margin-bottom: 0.5rem !important; }
+  .mobile-mb-4 { margin-bottom: 1rem !important; }
+
+  .mobile-gap-2 { gap: 0.5rem !important; }
+  .mobile-gap-3 { gap: 0.75rem !important; }
+  .mobile-gap-4 { gap: 1rem !important; }
+}
+
+/* ==========================================
+   5. MOBILE TABLE IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Horizontal scroll for tables */
+  .mobile-table-container {
+    width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .mobile-table {
+    min-width: 100% !important;
+    font-size: 0.875rem !important;
+  }
+
+  .mobile-table th,
+  .mobile-table td {
+    padding: 0.75rem 0.5rem !important;
+    white-space: nowrap !important;
+  }
+
+  /* Card-based table for better mobile UX */
+  .mobile-table-card {
+    display: block !important;
+  }
+
+  .mobile-table-card thead {
+    display: none !important;
+  }
+
+  .mobile-table-card tbody {
+    display: block !important;
+  }
+
+  .mobile-table-card tr {
+    display: block !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 0.5rem !important;
+    padding: 1rem !important;
+    background: white !important;
+  }
+
+  .mobile-table-card td {
+    display: flex !important;
+    justify-content: space-between !important;
+    padding: 0.5rem 0 !important;
+    border-bottom: 1px solid #f3f4f6 !important;
+    white-space: normal !important;
+  }
+
+  .mobile-table-card td:last-child {
+    border-bottom: none !important;
+  }
+
+  .mobile-table-card td::before {
+    content: attr(data-label) !important;
+    font-weight: 600 !important;
+    margin-right: 1rem !important;
+    color: #6b7280 !important;
+  }
+
+  /* Sticky table headers on scroll */
+  .mobile-table-sticky th {
+    position: sticky !important;
+    top: 0 !important;
+    background: white !important;
+    z-index: 10 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+  }
+}
+
+/* ==========================================
+   6. MOBILE TAB IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Mobile dropdown selector for tabs */
+  .mobile-tab-selector {
+    width: 100% !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .mobile-tab-selector .select-trigger {
+    min-height: 44px !important; /* iOS touch target */
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 0.75rem 1rem !important;
+  }
+  
+  .mobile-tab-selector .select-content {
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+  
+  .mobile-tab-selector .select-item {
+    min-height: 44px !important;
+    padding: 0.75rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  /* Legacy tab styles for backward compatibility */
+  .mobile-tabs-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.25rem !important;
+    padding: 0.25rem !important;
+    grid-template-columns: none !important;
+  }
+  
+  .mobile-tab-trigger {
+    flex: 1 !important;
+    min-width: 0 !important;
+    font-size: 0.75rem !important;
+    padding: 0.5rem 0.25rem !important;
+    text-align: center !important;
+  }
+  
+  .mobile-tab-trigger span {
+    display: block !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+  
+  /* Improve search input on mobile */
+  .mobile-search-input {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+  
+  /* Better spacing for mobile cards */
+  .mobile-card-spacing {
+    margin-bottom: 1rem !important;
+    padding: 0.75rem !important;
+  }
+  
+  /* Mobile-friendly buttons */
+  .mobile-button-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+  
+  .mobile-button-group.horizontal {
+    flex-direction: row !important;
+  }
+  
+  /* Improve mobile header layout */
+  .mobile-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 1rem !important;
+  }
+  
+  /* Mobile-friendly dialog content */
+  .mobile-dialog-content {
+    max-height: 90vh !important;
+    margin: 1rem !important;
+    width: calc(100vw - 2rem) !important;
+  }
+  
+  /* Mobile-friendly select dropdowns */
+  .mobile-select-trigger {
+    width: 100% !important;
+  }
+  
+  /* Improve mobile pagination */
+  .mobile-pagination {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 1rem !important;
+  }
+  
+  /* Mobile-friendly badge positioning */
+  .mobile-badge {
+    align-self: flex-start !important;
+    margin-top: 0.5rem !important;
+  }
+}
+
+/* ==========================================
+   INTERMEDIATE BREAKPOINT: TABLET RANGE (769px-1024px)
+   Prevents overlapping at intermediate widths
+   ========================================== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* Tablet-specific tab layout */
+  .tablet-tabs-list {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  .tablet-tab-trigger {
+    font-size: 0.875rem !important;
+    padding: 0.75rem 0.5rem !important;
+  }
+
+  /* Reduce container padding to prevent overflow */
+  .container, .max-w-7xl, .max-w-6xl {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+
+  /* Flexible grid layouts - allow wrapping */
+  .tablet-grid-wrap {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  /* Stack flex containers when needed */
+  .tablet-flex-wrap {
+    flex-wrap: wrap !important;
+    gap: 1rem !important;
+  }
+
+  /* Responsive dialogs */
+  .tablet-dialog {
+    max-width: 90vw !important;
+    margin: 2rem auto !important;
+  }
+
+  /* Limit fixed widths */
+  .tablet-max-width {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Text truncation for long content */
+  .tablet-text-truncate {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  /* Allow text wrapping for emails and long labels */
+  .tablet-text-wrap {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+}
+
+/* ==========================================
+   INTERMEDIATE BREAKPOINT: WIDE TABLET (900px-1100px)
+   Additional layer to handle specific collision points
+   ========================================== */
+@media (min-width: 900px) and (max-width: 1100px) {
+  /* Reduce sidebar width if shown */
+  .intermediate-sidebar {
+    width: 12rem !important; /* Narrower than desktop 16rem */
+  }
+
+  /* Adjust main content margin when sidebar present */
+  .intermediate-main-content {
+    margin-left: 12rem !important;
+  }
+
+  /* Compact button groups */
+  .intermediate-button-group {
+    gap: 0.5rem !important;
+  }
+
+  /* Smaller select dropdowns */
+  .intermediate-select {
+    font-size: 0.875rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Reduce card padding */
+  .intermediate-card-padding {
+    padding: 1.25rem !important;
+  }
+
+  /* Flexible panels that can stack */
+  .intermediate-panel-stack {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  /* Ensure badges and labels wrap */
+  .intermediate-badge-wrap {
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+  }
+}
+
+/* ==========================================
+   7. MOBILE LAYOUT OVERRIDES
+   ========================================== */
+@media (max-width: 768px) {
+  /* Override max-width containers */
+  .container, .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl, .max-w-3xl {
+    max-width: 100vw !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Force full-width sections */
+  .w-64, .w-72, .w-80 {
+    width: 100% !important;
+  }
+
+  /* Stack sidebars on mobile */
+  .mobile-sidebar-hidden {
+    display: none !important;
+  }
+
+  /* Main content takes full width */
+  .mobile-main-full {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* ==========================================
+   8. MOBILE NAVIGATION IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Mobile navigation bar */
+  .mobile-nav {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+    background: white !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  /* Mobile hamburger menu */
+  .mobile-menu-button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 0.5rem !important;
+  }
+
+  /* Mobile drawer navigation */
+  .mobile-drawer {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 100 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .mobile-drawer-content {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 280px !important;
+    max-width: 85vw !important;
+    background: white !important;
+    overflow-y: auto !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Mobile-specific card improvements */
+@media (max-width: 768px) {
+  .mobile-card {
+    border-radius: 0.5rem !important;
+    padding: 1rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mobile-card-header {
+    padding-bottom: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .mobile-card-content {
+    padding-top: 0 !important;
+  }
+}
+
+/* Mobile-specific button improvements */
+@media (max-width: 768px) {
+  .mobile-button {
+    min-height: 44px !important; /* iOS touch target minimum */
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+  
+  .mobile-button-sm {
+    min-height: 36px !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+/* Mobile-specific input improvements */
+@media (max-width: 768px) {
+  .mobile-input {
+    min-height: 44px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 0.75rem !important;
+  }
+  
+  .mobile-select {
+    min-height: 44px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* Mobile-specific modal improvements */
+@media (max-width: 768px) {
+  .mobile-modal {
+    margin: 0 !important;
+    max-height: 100vh !important;
+    height: 100vh !important;
+    border-radius: 0 !important;
+  }
+  
+  .mobile-modal-content {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
+  .mobile-modal-header {
+    flex-shrink: 0 !important;
+    padding: 1rem !important;
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+  
+  .mobile-modal-body {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 1rem !important;
+  }
+  
+  .mobile-modal-footer {
+    flex-shrink: 0 !important;
+    padding: 1rem !important;
+    border-top: 1px solid #e5e7eb !important;
+  }
+}
+
+/* ==========================================
+   9. MOBILE FORM IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Full-width form inputs */
+  .mobile-form-input {
+    width: 100% !important;
+    min-height: 44px !important;
+    font-size: 16px !important; /* Prevents iOS zoom */
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+  }
+
+  /* Form label spacing */
+  .mobile-form-label {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Form field wrapper */
+  .mobile-form-field {
+    margin-bottom: 1rem !important;
+    width: 100% !important;
+  }
+
+  /* Stacked form buttons */
+  .mobile-form-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+
+  .mobile-form-actions button {
+    width: 100% !important;
+    min-height: 44px !important;
+  }
+
+  /* Better select dropdowns */
+  .mobile-form-select {
+    width: 100% !important;
+    min-height: 44px !important;
+    font-size: 16px !important;
+    padding: 0.75rem !important;
+    background-position: right 0.75rem center !important;
+  }
+
+  /* Textarea improvements */
+  .mobile-form-textarea {
+    width: 100% !important;
+    min-height: 120px !important;
+    font-size: 16px !important;
+    padding: 0.75rem !important;
+    resize: vertical !important;
+  }
+
+  /* Checkbox and radio improvements */
+  .mobile-form-checkbox,
+  .mobile-form-radio {
+    min-width: 20px !important;
+    min-height: 20px !important;
+    margin-right: 0.5rem !important;
+  }
+
+  .mobile-form-checkbox-label,
+  .mobile-form-radio-label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 0.5rem 0 !important;
+  }
+}
+
+/* ==========================================
+   10. MOBILE IMAGE & MEDIA IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Responsive images */
+  .mobile-img-responsive {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Full-width images */
+  .mobile-img-full {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+  }
+
+  /* Avatar sizing */
+  .mobile-avatar-sm {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 50% !important;
+  }
+
+  .mobile-avatar-md {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 50% !important;
+  }
+
+  /* Video responsive */
+  .mobile-video-container {
+    position: relative !important;
+    padding-bottom: 56.25% !important; /* 16:9 aspect ratio */
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .mobile-video-container iframe,
+  .mobile-video-container video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+/* ==========================================
+   11. MOBILE UTILITY CLASSES
+   ========================================== */
+@media (max-width: 768px) {
+  /* Rounded corners */
+  .mobile-rounded {
+    border-radius: 0.5rem !important;
+  }
+
+  .mobile-rounded-lg {
+    border-radius: 0.75rem !important;
+  }
+
+  /* Shadows */
+  .mobile-shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .mobile-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Borders */
+  .mobile-border {
+    border: 1px solid #e5e7eb !important;
+  }
+
+  .mobile-border-b {
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+
+  .mobile-border-t {
+    border-top: 1px solid #e5e7eb !important;
+  }
+
+  /* Background colors */
+  .mobile-bg-white {
+    background-color: white !important;
+  }
+
+  .mobile-bg-gray-50 {
+    background-color: #f9fafb !important;
+  }
+
+  /* Overflow handling */
+  .mobile-overflow-hidden {
+    overflow: hidden !important;
+  }
+
+  .mobile-overflow-auto {
+    overflow: auto !important;
+  }
+
+  .mobile-overflow-x-auto {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .mobile-overflow-y-auto {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Position utilities */
+  .mobile-sticky-top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 20 !important;
+    background: white !important;
+  }
+
+  .mobile-fixed-bottom {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 40 !important;
+    background: white !important;
+    border-top: 1px solid #e5e7eb !important;
+    padding: 1rem !important;
+  }
+}
+
+/* ==========================================
+   12. MOBILE LOADING & SKELETON STATES
+   ========================================== */
+@media (max-width: 768px) {
+  .mobile-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%) !important;
+    background-size: 200% 100% !important;
+    animation: mobile-skeleton-loading 1.5s ease-in-out infinite !important;
+    border-radius: 0.25rem !important;
+  }
+
+  @keyframes mobile-skeleton-loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  .mobile-spinner {
+    border: 3px solid #f3f4f6 !important;
+    border-top-color: #236383 !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    animation: mobile-spin 0.8s linear infinite !important;
+  }
+
+  @keyframes mobile-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* ==========================================
+   13. MOBILE ACCESSIBILITY IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Focus states for touch */
+  .mobile-focus-visible:focus-visible {
+    outline: 2px solid #236383 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Touch target sizing */
+  .mobile-touch-target {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Reduce motion for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ==========================================
+   14. MOBILE SAFE AREA SUPPORT (NOTCHED DEVICES)
+   ========================================== */
+@media (max-width: 768px) {
+  /* iOS safe area insets */
+  .mobile-safe-top {
+    padding-top: env(safe-area-inset-top) !important;
+  }
+
+  .mobile-safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+
+  .mobile-safe-left {
+    padding-left: env(safe-area-inset-left) !important;
+  }
+
+  .mobile-safe-right {
+    padding-right: env(safe-area-inset-right) !important;
+  }
+
+  .mobile-safe-all {
+    padding-top: env(safe-area-inset-top) !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    padding-left: env(safe-area-inset-left) !important;
+    padding-right: env(safe-area-inset-right) !important;
+  }
+}
+
+/* ==========================================
+   15. MOBILE PRINT STYLES
+   ========================================== */
+@media print {
+  .mobile-print-hidden {
+    display: none !important;
+  }
+
+  .mobile-print-full-width {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* ==========================================
+   16. MOBILE PERFORMANCE OPTIMIZATIONS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Hardware acceleration for smooth scrolling */
+  .mobile-smooth-scroll {
+    -webkit-overflow-scrolling: touch !important;
+    transform: translateZ(0) !important;
+    will-change: scroll-position !important;
+  }
+
+  /* Optimize animations */
+  .mobile-animate-gpu {
+    transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    perspective: 1000px !important;
+  }
+}
+
+/* ==========================================
+   17. MOBILE SELECT & DROPDOWN IMPROVEMENTS
+   ========================================== */
+@media (max-width: 768px) {
+  /* Full-width selects and dropdowns */
+  select,
+  [role="combobox"] {
+    width: 100% !important;
+  }
+}
+
+/* ==========================================
+   18. RESPONSIVE CONTAINER IMPROVEMENTS
+   Prevents horizontal overflow
+   ========================================== */
+@media (max-width: 1024px) {
+  /* Prevent horizontal overflow on root elements only */
+  html,
+  body {
+    overflow-x: hidden !important;
+  }
+}
+
+/* ==========================================
+   19. RESPONSIVE TEXT HANDLING
+   Prevents text overflow for emails and labels
+   ========================================== */
+@media (max-width: 1024px) {
+  /* Allow emails and long labels to wrap */
+  [type="email"],
+  .email-text,
+  .label-text {
+    word-break: break-all !important;
+    overflow-wrap: break-word !important;
+  }
+}
+
+/* ==========================================
+   20. NARROW MOBILE (360px) SPECIFIC FIXES
+   Critical fixes for the smallest supported devices
+   Target: 360px width and below (iPhone SE, older devices)
+   ========================================== */
+@media (max-width: 360px) {
+  /* Force multi-column grids to single column to prevent overflow 
+     Note: .grid-cols-7 is excluded to preserve calendar layouts (7 days per week) */
+  .grid-cols-2,
+  .grid-cols-3,
+  .grid-cols-4,
+  .grid-cols-5,
+  .grid-cols-6,
+  .grid-cols-8,
+  .grid-cols-9,
+  .grid-cols-10,
+  .grid-cols-11,
+  .grid-cols-12 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Reduce padding in main content areas */
+  main .p-4,
+  [role="main"] .p-4,
+  article .p-4 { 
+    padding: 0.75rem !important; 
+  }
+  
+  main .p-6,
+  [role="main"] .p-6,
+  article .p-6 { 
+    padding: 1rem !important; 
+  }
+  
+  main .px-4,
+  [role="main"] .px-4,
+  article .px-4 { 
+    padding-left: 0.75rem !important; 
+    padding-right: 0.75rem !important; 
+  }
+  
+  main .px-6,
+  [role="main"] .px-6,
+  article .px-6 { 
+    padding-left: 1rem !important; 
+    padding-right: 1rem !important; 
+  }
+
+  /* Reduce heading sizes to prevent overflow */
+  h1.text-2xl { 
+    font-size: 1.25rem !important; 
+  }
+  
+  h2.text-xl {
+    font-size: 1.125rem !important;
+  }
+  
+  h3.text-lg { 
+    font-size: 1rem !important; 
+  }
+  
+  .text-xl { 
+    font-size: 1.125rem !important; 
+  }
+  
+  .text-lg { 
+    font-size: 1rem !important; 
+  }
+
+  /* Force all containers to respect narrow viewport width */
+  .container,
+  .max-w-7xl,
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl,
+  .max-w-3xl,
+  .max-w-2xl,
+  .max-w-xl,
+  .max-w-lg,
+  .max-w-md {
+    max-width: 100% !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Ensure buttons don't overflow */
+  button,
+  .btn,
+  [role="button"] {
+    max-width: 100% !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Stack flex containers that might overflow */
+  .flex.gap-4,
+  .flex.gap-3,
+  .flex.gap-2 {
+    flex-wrap: wrap !important;
+  }
+
+  /* Make dialogs use full width minus small margin */
+  [role="dialog"],
+  [data-state="open"][role="dialog"] {
+    width: calc(100vw - 1rem) !important;
+    max-width: calc(100vw - 1rem) !important;
+    margin: 0.5rem !important;
+  }
+
+  /* Ensure popups/tooltips don't overflow */
+  .leaflet-popup-content,
+  [data-radix-popper-content-wrapper] > * {
+    max-width: calc(100vw - 2rem) !important;
+  }
+
+  /* Hide some non-essential elements at 320px */
+  .narrow-hidden {
+    display: none !important;
+  }
+
+  /* Make badges more compact */
+  .badge,
+  [class*="Badge"] {
+    font-size: 0.625rem !important;
+    padding: 0.125rem 0.375rem !important;
+  }
+
+  /* Compact header elements */
+  header,
+  .header,
+  [class*="header"] {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  /* Dashboard sidebar should be full-width overlay */
+  aside,
+  [class*="sidebar"] {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Form elements with max-width */
+  input,
+  select,
+  textarea,
+  [role="combobox"] {
+    max-width: 100% !important;
+  }
+
+  /* Table cells with word wrap */
+  td, th {
+    overflow-wrap: break-word !important;
+    max-width: 150px !important;
+  }
+}
+
+/* ==========================================
+   21. EXTRA NARROW MOBILE (320px and below) EMERGENCY FIXES
+   For extremely narrow viewports (0-320px)
+   ========================================== */
+@media (max-width: 320px) {
+  /* Emergency: hide non-critical UI */
+  .hide-narrow {
+    display: none !important;
+  }
+
+  /* Extremely tight spacing for specific components */
+  [role="dialog"] .p-2,
+  [role="dialog"] .p-3,
+  [role="dialog"] .p-4 { 
+    padding: 0.5rem !important; 
+  }
+  
+  [role="dialog"] .gap-2,
+  [role="dialog"] .gap-3,
+  [role="dialog"] .gap-4 { 
+    gap: 0.25rem !important; 
+  }
+  
+  [role="dialog"] .space-x-2 > * + *,
+  [role="dialog"] .space-x-3 > * + *,
+  [role="dialog"] .space-x-4 > * + * {
+    margin-left: 0.25rem !important;
+  }
+
+  /* Extra small text */
+  .text-sm { font-size: 0.75rem !important; }
+  .text-xs { font-size: 0.625rem !important; }
+
+  /* Make icons smaller */
+  svg.w-5, svg.w-6 {
+    width: 1rem !important;
+    height: 1rem !important;
+  }
+
+  /* Header should be as compact as possible */
+  .mobile-header-fix {
+    min-height: 50px !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+}
+

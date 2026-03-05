@@ -1,0 +1,517 @@
+@tailwind components;
+
+@layer components {
+  /* Compact spacing scale */
+  .grid { gap: var(--gap); }
+  .card-compact { padding: var(--pad); }
+  .chip { padding: var(--chip-padding); }
+  
+  /* Design System: Consistent Spacing Scale */
+  .space-xs { gap: 0.25rem; } /* 4px */
+  .space-sm { gap: 0.5rem; }  /* 8px */
+  .space-md { gap: 1rem; }    /* 16px */
+  .space-lg { gap: 1.5rem; }  /* 24px */
+  .space-xl { gap: 2rem; }    /* 32px */
+
+  .p-xs { padding: 0.25rem; }
+  .p-sm { padding: 0.5rem; }
+  .p-md { padding: 1rem; }
+  .p-lg { padding: 1.5rem; }
+  .p-xl { padding: 2rem; }
+
+  /* Design System: Modern Card Styles with Color Rails */
+  .card {
+    border: 1px solid #D8DEE2;
+    border-radius: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  }
+  
+  .card--ok { border-left: 4px solid #236383; }     /* teal */
+  .card--warn { border-left: 4px solid #FBAD3F; }   /* gold */
+  .card--alert { border-left: 4px solid #A31C41; }  /* crimson */
+  
+  .card-elevated {
+    @apply bg-card border border-border rounded-lg shadow-sm;
+  }
+
+  .card-flat {
+    @apply bg-card border border-border rounded-lg;
+  }
+  
+  /* Solid brand chips instead of ghost */
+  .chip--info {
+    background: #E6F2F6;
+    color: #1A4F61;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .chip--count {
+    background: #FFF3DF;
+    color: #7A4F16;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  
+  .chip--danger {
+    background: #FCEDEF;
+    color: #7C102D;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  /* Design System: Improved Focus States */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary focus-visible:ring-offset-2;
+  }
+
+  .focus-ring-destructive {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 focus-visible:ring-offset-2;
+  }
+
+  /* Design System: Interactive States */
+  .interactive-element {
+    @apply transition-colors duration-200 focus-ring;
+  }
+
+  .interactive-element:hover {
+    @apply bg-muted;
+  }
+
+  /* Force clean tab styling */
+  [role="tablist"] {
+    @apply bg-transparent border-0 shadow-none;
+  }
+
+  [role="tab"] {
+    @apply bg-white border-0 shadow-none;
+    color: var(--color-brand-teal);
+  }
+
+  [role="tab"][data-state="active"] {
+    @apply text-white border-0 shadow-none;
+    background-color: var(--color-brand-teal);
+  }
+
+  [role="tab"]:hover {
+    background-color: var(--color-brand-teal-light);
+  }
+
+  [role="tab"][data-state="active"]:hover {
+    background-color: var(--color-brand-teal-hover);
+  }
+
+  /* Modern button styling with punchy colors */
+  .btn-primary {
+    background: #FBAD3F;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    background: #E69B37;
+  }
+
+  .btn-secondary {
+    background: #fff;
+    color: #236383;
+    border: 1px solid #D8DEE2;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 8px 16px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    background: #F5F2EE;
+    border-color: #236383;
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: hsl(var(--color-primary));
+    border: 2px solid hsl(var(--color-primary));
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .btn-outline:hover {
+    background-color: hsl(var(--color-primary) / 0.1);
+  }
+
+  /* Professional Badge Styling */
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    border: 1px solid;
+  }
+
+  .status-completed {
+    background-color: hsl(var(--color-accent) / 0.1);
+    color: hsl(var(--color-accent));
+    border-color: hsl(var(--color-accent) / 0.3);
+  }
+
+  .status-progress {
+    background-color: hsl(var(--color-secondary) / 0.1);
+    color: hsl(var(--color-secondary-foreground));
+    border-color: hsl(var(--color-secondary) / 0.3);
+  }
+
+  .status-pending {
+    background-color: hsl(var(--color-muted));
+    color: hsl(var(--color-muted-foreground));
+    border-color: hsl(var(--color-border));
+  }
+
+  /* Mobile header fix */
+  .mobile-header-fix {
+    min-height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
+  @media (max-width: 768px) {
+    .mobile-header-fix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 9999;
+    }
+  }
+
+  /* TSP Brand Button Styles */
+  .btn-claim {
+    @apply px-3 py-1 text-sm font-medium rounded border transition-colors;
+    color: var(--color-brand-teal);
+    border-color: var(--color-brand-teal);
+  }
+  .btn-claim:hover {
+    color: var(--color-brand-teal-hover);
+    background-color: var(--color-brand-teal-light);
+  }
+
+  .btn-view-all {
+    @apply text-sm flex items-center w-full justify-center py-2 rounded-md transition-colors border;
+    color: var(--color-brand-teal);
+    border-color: var(--color-brand-teal);
+  }
+  .btn-view-all:hover {
+    color: var(--color-brand-teal-hover);
+    background-color: var(--color-brand-teal-light);
+  }
+
+  .btn-tsp-primary {
+    background-color: var(--color-brand-teal);
+    color: white;
+  }
+  .btn-tsp-primary:hover {
+    background-color: var(--color-brand-teal-hover);
+  }
+
+  .btn-outline-tsp:hover {
+    background-color: var(--color-brand-teal-light);
+    border-color: var(--color-brand-teal);
+    color: var(--color-brand-teal);
+  }
+
+  /* Status indicator styles */
+  .status-available {
+    @apply w-3 h-3 bg-green-500 rounded-full;
+  }
+
+  .status-in-progress {
+    @apply w-3 h-3 bg-amber-500 rounded-full;
+  }
+
+  .status-planning {
+    @apply w-3 h-3 rounded-full;
+    background-color: var(--color-brand-teal);
+  }
+
+  .status-completed {
+    @apply w-3 h-3 bg-gray-500 rounded-full;
+  }
+
+  /* Badge styles */
+  .badge-available {
+    @apply px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full;
+  }
+
+  .badge-in-progress {
+    @apply px-2 py-1 text-xs font-medium bg-amber-100 text-amber-800 rounded-full;
+  }
+
+  .badge-planning {
+    @apply px-2 py-1 text-xs font-medium rounded-full;
+    background-color: var(--color-brand-teal-light);
+    color: var(--color-brand-teal);
+  }
+
+  .badge-completed {
+    @apply px-2 py-1 text-xs font-medium rounded-full;
+    background-color: var(--color-brand-secondary);
+    color: #8B4513;
+  }
+
+  /* Mobile-first responsive optimizations */
+  @media (max-width: 640px) {
+    /* Ensure touch-friendly form inputs */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    input[type="tel"],
+    input[type="search"],
+    input[type="date"],
+    textarea,
+    select {
+      min-height: 44px;
+      font-size: 16px;
+      padding: 12px 16px;
+    }
+
+    /* Optimize buttons for touch */
+    button {
+      min-height: 44px;
+      min-width: 44px;
+      font-size: 14px;
+    }
+
+    /* Dialog and modal optimizations */
+    [role="dialog"],
+    [data-radix-dialog-content] {
+      max-width: 95vw;
+      max-height: 90vh;
+      margin: 5vh auto;
+      overflow-y: auto;
+    }
+
+    /* Table responsive behavior */
+    table {
+      font-size: 14px;
+    }
+
+    th, td {
+      padding: 8px 6px;
+      font-size: 13px;
+    }
+
+    /* Reduce excessive spacing on mobile */
+    .space-y-6 > * + * {
+      margin-top: 1rem;
+    }
+
+    .space-y-8 > * + * {
+      margin-top: 1.5rem;
+    }
+
+    /* Text scaling for mobile readability */
+    h1 {
+      font-size: 1.5rem;
+      line-height: 1.3;
+    }
+
+    h2 {
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+
+    h3 {
+      font-size: 1.125rem;
+      line-height: 1.3;
+    }
+
+    /* Navigation improvements */
+    nav {
+      font-size: 14px;
+    }
+
+    /* Reduce gap in flex layouts for mobile */
+    .flex.gap-4 {
+      gap: 0.75rem;
+    }
+
+    .flex.gap-6 {
+      gap: 1rem;
+    }
+
+    /* Badge and status indicator sizing */
+    .badge,
+    [data-slot="badge"] {
+      font-size: 12px;
+      padding: 4px 8px;
+    }
+
+    /* Card padding optimization */
+    .card,
+    [data-slot="card"] {
+      padding: 1rem;
+    }
+
+    /* Select dropdown optimization */
+    [role="combobox"],
+    [role="listbox"] {
+      min-height: 44px;
+      font-size: 16px;
+    }
+
+    /* Tab optimization */
+    [role="tab"] {
+      font-size: 14px;
+      padding: 8px 12px;
+      min-height: 40px;
+    }
+
+    /* Form grid responsive behavior - Only override on very small screens */
+    @media (max-width: 480px) {
+      .grid-cols-2 {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-cols-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Project card mobile optimizations */
+    .project-card {
+      margin-bottom: 16px;
+      padding: 16px;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .project-card h3 {
+      font-size: 16px;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      word-wrap: break-word;
+    }
+
+    .project-card p {
+      font-size: 14px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+      word-wrap: break-word;
+    }
+
+    .project-card .badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      min-height: 24px;
+      white-space: nowrap;
+    }
+
+    .project-card .progress-bar {
+      height: 6px;
+      margin: 8px 0;
+    }
+
+    .project-card .card-footer {
+      padding-top: 12px;
+      margin-top: 12px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    /* Fix assignee text overflow */
+    .project-card span {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Tab optimizations for mobile */
+    [data-state="active"] {
+      background-color: var(--color-brand-teal);
+      color: white;
+    }
+
+    .tabs-trigger {
+      min-height: 60px;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Project detail mobile optimizations */
+    .project-detail-header h1 {
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+
+    .project-detail-header p {
+      font-size: 0.875rem;
+      line-height: 1.4;
+    }
+
+    .project-detail-cards {
+      gap: 1rem;
+    }
+
+    .project-detail-cards .card {
+      padding: 1rem;
+    }
+
+    .project-detail-cards .card-title {
+      font-size: 0.75rem;
+    }
+
+    .project-detail-cards .card-content {
+      padding-top: 0.5rem;
+    }
+
+    /* Make edit buttons more prominent on mobile */
+    .edit-project-btn {
+      background-color: var(--color-brand-teal);
+      color: white;
+      border: 1px solid var(--color-brand-teal);
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+    }
+
+    .edit-project-btn:hover {
+      background-color: var(--color-brand-teal-dark);
+    }
+
+    /* Chat hub mobile optimizations */
+    .chat-mobile-selector {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid var(--color-brand-teal);
+      border-radius: 0.5rem;
+      background: white;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--color-brand-teal);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+
+    .chat-mobile-selector:focus {
+      outline: 2px solid var(--color-brand-teal);
+      outline-offset: 2px;
+    }
+  }
+}

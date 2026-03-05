@@ -1,0 +1,205 @@
+{
+  "generated": "2026-01-02T03:07:47.138Z",
+  "summary": {
+    "total": 39,
+    "needsChange": 23,
+    "needsReview": 9,
+    "keepAsIs": 7
+  },
+  "needsChange": [
+    {
+      "file": "components/event-operational-dashboard.tsx",
+      "line": 175,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/event-request-audit-log.tsx",
+      "line": 127,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/event-request-audit-log.tsx",
+      "line": 129,
+      "code": "const response = await fetch('/api/users');",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/detailed-activity-analytics.tsx",
+      "line": 85,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/detailed-activity-analytics.tsx",
+      "line": 87,
+      "code": "const response = await fetch('/api/users');",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/email-style-messaging.tsx",
+      "line": 351,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/email-style-messaging.tsx",
+      "line": 352,
+      "code": "queryFn: () => apiRequest('GET', '/api/users'),",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/comprehensive-audit-log.tsx",
+      "line": 143,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/comprehensive-audit-log.tsx",
+      "line": 145,
+      "code": "const response = await fetch('/api/users');",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/event-requests/hooks/useEventFilters.ts",
+      "line": 29,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/event-requests/dialogs/SendEventDetailsSMSDialog.tsx",
+      "line": 39,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/event-requests/dialogs/SendCorrectionSMSDialog.tsx",
+      "line": 41,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/task-assignee-selector.tsx",
+      "line": 54,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/stream-chat-rooms.tsx",
+      "line": 282,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/stream-chat-rooms.tsx",
+      "line": 283,
+      "code": "queryFn: () => apiRequest('GET', '/api/users'),",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/message-composer.tsx",
+      "line": 125,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/message-composer.tsx",
+      "line": 128,
+      "code": "const response = await apiRequest('GET', '/api/users');",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/mention-input.tsx",
+      "line": 50,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/mention-input.tsx",
+      "line": 52,
+      "code": "const response = await fetch('/api/users', {",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/mention-input.tsx",
+      "line": 373,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/mention-input.tsx",
+      "line": 375,
+      "code": "const response = await fetch('/api/users', {",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "components/tsp-contact-manager.tsx",
+      "line": 88,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    },
+    {
+      "file": "pages/projects-clean.tsx",
+      "line": 63,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "CHANGE to /api/users/for-assignments or /api/users/basic"
+    }
+  ],
+  "needsReview": [
+    {
+      "file": "components/event-requests/tabs/AdminOverviewTab.tsx",
+      "line": 41,
+      "code": "queryKey: ['/api/users'],",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 22,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 51,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 73,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 96,
+      "code": "return apiRequest('POST', '/api/users', userData);",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 99,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 136,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 164,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    },
+    {
+      "file": "hooks/useUserManagement.ts",
+      "line": 242,
+      "code": "queryClient.invalidateQueries({ queryKey: ['/api/users'] });",
+      "recommendation": "REVIEW (might need change)"
+    }
+  ]
+}

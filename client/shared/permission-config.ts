@@ -1,0 +1,450 @@
+import { PERMISSIONS } from './auth-utils';
+
+/**
+ * Permission Groups for UI Organization
+ * Groups permissions by resource/feature area
+ */
+export const PERMISSION_GROUPS = {
+  ADMIN: {
+    label: 'Administration',
+    permissions: [
+      PERMISSIONS.ADMIN_ACCESS,
+      PERMISSIONS.MANAGE_ANNOUNCEMENTS,
+      PERMISSIONS.ADMIN_PANEL_ACCESS,
+    ],
+  },
+  CONTACTS: {
+    label: 'Contacts & Directory',
+    permissions: [
+      PERMISSIONS.CONTACTS_VIEW,
+      PERMISSIONS.MANAGE_DIRECTORY,
+    ],
+  },
+  USERS: {
+    label: 'User Management',
+    permissions: [
+      PERMISSIONS.USERS_VIEW,
+      PERMISSIONS.USERS_ADD,
+      PERMISSIONS.USERS_EDIT,
+      PERMISSIONS.USERS_DELETE,
+    ],
+  },
+  HOSTS: {
+    label: 'Host Locations',
+    permissions: [
+      PERMISSIONS.HOSTS_VIEW,
+      PERMISSIONS.HOSTS_ADD,
+      PERMISSIONS.HOSTS_EDIT_OWN,
+      PERMISSIONS.HOSTS_EDIT,
+      PERMISSIONS.HOSTS_DELETE,
+    ],
+  },
+  RECIPIENTS: {
+    label: 'Recipient Organizations',
+    permissions: [
+      PERMISSIONS.RECIPIENTS_VIEW,
+      PERMISSIONS.RECIPIENTS_ADD,
+      PERMISSIONS.RECIPIENTS_EDIT,
+      PERMISSIONS.RECIPIENTS_DELETE,
+    ],
+  },
+  DRIVERS: {
+    label: 'Drivers',
+    permissions: [
+      PERMISSIONS.DRIVERS_VIEW,
+      PERMISSIONS.DRIVERS_ADD,
+      PERMISSIONS.DRIVERS_EDIT,
+      PERMISSIONS.DRIVERS_DELETE,
+    ],
+  },
+  VOLUNTEERS: {
+    label: 'Volunteers',
+    permissions: [
+      PERMISSIONS.VOLUNTEERS_VIEW,
+      PERMISSIONS.VOLUNTEERS_ADD,
+      PERMISSIONS.VOLUNTEERS_EDIT,
+      PERMISSIONS.VOLUNTEERS_DELETE,
+    ],
+  },
+  COLLECTIONS: {
+    label: 'Sandwich Collections',
+    permissions: [
+      PERMISSIONS.COLLECTIONS_VIEW,
+      PERMISSIONS.COLLECTIONS_ADD,
+      PERMISSIONS.COLLECTIONS_EDIT_OWN,
+      PERMISSIONS.COLLECTIONS_EDIT_ALL,
+      PERMISSIONS.COLLECTIONS_DELETE_OWN,
+      PERMISSIONS.COLLECTIONS_DELETE_ALL,
+      PERMISSIONS.COLLECTIONS_WALKTHROUGH,
+    ],
+  },
+  PROJECTS: {
+    label: 'Projects',
+    permissions: [
+      PERMISSIONS.PROJECTS_VIEW,
+      PERMISSIONS.PROJECTS_ADD,
+      PERMISSIONS.PROJECTS_EDIT_OWN,
+      PERMISSIONS.PROJECTS_EDIT_ALL,
+      PERMISSIONS.PROJECTS_DELETE_OWN,
+      PERMISSIONS.PROJECTS_DELETE_ALL,
+      PERMISSIONS.PROJECTS_TASK_ADD,
+      PERMISSIONS.PROJECTS_TASK_EDIT_OWN,
+      PERMISSIONS.PROJECTS_TASK_EDIT_ALL,
+      PERMISSIONS.PROJECTS_TASK_DELETE_OWN,
+      PERMISSIONS.PROJECTS_TASK_DELETE_ALL,
+    ],
+  },
+  DISTRIBUTIONS: {
+    label: 'Distribution Tracking',
+    permissions: [
+      PERMISSIONS.DISTRIBUTIONS_VIEW,
+      PERMISSIONS.DISTRIBUTIONS_ADD,
+      PERMISSIONS.DISTRIBUTIONS_EDIT,
+      PERMISSIONS.DISTRIBUTIONS_DELETE,
+    ],
+  },
+  EVENT_REQUESTS: {
+    label: 'Event Requests',
+    permissions: [
+      PERMISSIONS.EVENT_REQUESTS_VIEW,
+      PERMISSIONS.EVENT_REQUESTS_ADD,
+      PERMISSIONS.EVENT_REQUESTS_EDIT,
+      PERMISSIONS.EVENT_REQUESTS_DELETE,
+      PERMISSIONS.EVENT_REQUESTS_DELETE_CARD,
+      PERMISSIONS.EVENT_REQUESTS_SYNC,
+      PERMISSIONS.EVENT_REQUESTS_COMPLETE_CONTACT,
+      PERMISSIONS.EVENT_REQUESTS_SELF_SIGNUP,
+      PERMISSIONS.EVENT_REQUESTS_ASSIGN_OTHERS,
+      PERMISSIONS.EVENT_REQUESTS_VIEW_ONLY,
+      PERMISSIONS.EVENT_REQUESTS_EDIT_ALL_DETAILS,
+      PERMISSIONS.EVENT_REQUESTS_SEND_TOOLKIT,
+      PERMISSIONS.EVENT_REQUESTS_FOLLOW_UP,
+      PERMISSIONS.EVENT_REQUESTS_EDIT_TSP_CONTACT,
+      PERMISSIONS.EVENT_REQUESTS_VIEW_ADMIN_OVERVIEW,
+      PERMISSIONS.EVENT_REQUESTS_SEND_SMS,
+    ],
+  },
+  EVENT_INLINE_EDITING: {
+    label: 'Event Inline Editing',
+    permissions: [
+      PERMISSIONS.EVENT_REQUESTS_INLINE_EDIT_TIMES,
+      PERMISSIONS.EVENT_REQUESTS_INLINE_EDIT_ADDRESS,
+      PERMISSIONS.EVENT_REQUESTS_INLINE_EDIT_SANDWICHES,
+      PERMISSIONS.EVENT_REQUESTS_INLINE_EDIT_STAFFING,
+      PERMISSIONS.EVENT_REQUESTS_INLINE_EDIT_LOGISTICS,
+      PERMISSIONS.EVENT_REQUESTS_INLINE_EDIT_ORG_DETAILS,
+    ],
+  },
+  MESSAGES: {
+    label: 'Messaging',
+    permissions: [
+      PERMISSIONS.MESSAGES_VIEW,
+      PERMISSIONS.MESSAGES_SEND,
+      PERMISSIONS.MESSAGES_EDIT,
+      PERMISSIONS.MESSAGES_DELETE,
+      PERMISSIONS.MESSAGES_MODERATE,
+    ],
+  },
+  WORK_LOGS: {
+    label: 'Work Logs',
+    permissions: [
+      PERMISSIONS.WORK_LOGS_VIEW,
+      PERMISSIONS.WORK_LOGS_VIEW_ALL,
+      PERMISSIONS.WORK_LOGS_ADD,
+      PERMISSIONS.WORK_LOGS_EDIT_OWN,
+      PERMISSIONS.WORK_LOGS_EDIT_ALL,
+      PERMISSIONS.WORK_LOGS_DELETE_OWN,
+      PERMISSIONS.WORK_LOGS_DELETE_ALL,
+    ],
+  },
+  SUGGESTIONS: {
+    label: 'Suggestions',
+    permissions: [
+      PERMISSIONS.SUGGESTIONS_VIEW,
+      PERMISSIONS.SUGGESTIONS_ADD,
+      PERMISSIONS.SUGGESTIONS_EDIT_OWN,
+      PERMISSIONS.SUGGESTIONS_EDIT_ALL,
+      PERMISSIONS.SUGGESTIONS_DELETE_OWN,
+      PERMISSIONS.SUGGESTIONS_DELETE_ALL,
+      PERMISSIONS.SUGGESTIONS_MANAGE,
+    ],
+  },
+  AVAILABILITY: {
+    label: 'Availability',
+    permissions: [
+      PERMISSIONS.AVAILABILITY_VIEW,
+      PERMISSIONS.AVAILABILITY_ADD,
+      PERMISSIONS.AVAILABILITY_EDIT_OWN,
+      PERMISSIONS.AVAILABILITY_EDIT_ALL,
+      PERMISSIONS.AVAILABILITY_DELETE_OWN,
+      PERMISSIONS.AVAILABILITY_DELETE_ALL,
+    ],
+  },
+  GRANT_METRICS: {
+    label: 'Grant Metrics',
+    permissions: [
+      PERMISSIONS.GRANT_METRICS_VIEW,
+      PERMISSIONS.GRANT_METRICS_EXPORT,
+      PERMISSIONS.GRANT_METRICS_EDIT,
+    ],
+  },
+  COOLER_TRACKING: {
+    label: 'Cooler Tracking',
+    permissions: [
+      PERMISSIONS.COOLERS_VIEW,
+      PERMISSIONS.COOLERS_REPORT,
+      PERMISSIONS.COOLERS_MANAGE,
+    ],
+  },
+  HOLDING_ZONE: {
+    label: 'TSP Holding Zone',
+    permissions: [
+      PERMISSIONS.HOLDING_ZONE_VIEW,
+      PERMISSIONS.HOLDING_ZONE_ADD,
+      PERMISSIONS.HOLDING_ZONE_EDIT_OWN,
+      PERMISSIONS.HOLDING_ZONE_EDIT_ALL,
+      PERMISSIONS.HOLDING_ZONE_DELETE_OWN,
+      PERMISSIONS.HOLDING_ZONE_DELETE_ALL,
+      PERMISSIONS.HOLDING_ZONE_MANAGE,
+      PERMISSIONS.VIEW_HOLDING_ZONE,
+      PERMISSIONS.SUBMIT_HOLDING_ZONE,
+      PERMISSIONS.COMMENT_HOLDING_ZONE,
+      PERMISSIONS.EDIT_OWN_COMMENTS_HOLDING_ZONE,
+      PERMISSIONS.DELETE_OWN_COMMENTS_HOLDING_ZONE,
+      PERMISSIONS.MANAGE_HOLDING_ZONE,
+    ],
+  },
+  VOLUNTEER_CALENDAR: {
+    label: 'Volunteer Calendar',
+    permissions: [
+      PERMISSIONS.VOLUNTEER_CALENDAR_VIEW,
+      PERMISSIONS.VOLUNTEER_CALENDAR_SYNC,
+      PERMISSIONS.VOLUNTEER_CALENDAR_MANAGE,
+    ],
+  },
+  YEARLY_CALENDAR: {
+    label: 'TSP Yearly Calendar',
+    permissions: [
+      PERMISSIONS.YEARLY_CALENDAR_VIEW,
+      PERMISSIONS.YEARLY_CALENDAR_EDIT_OWN,
+      PERMISSIONS.YEARLY_CALENDAR_DELETE_OWN,
+      PERMISSIONS.YEARLY_CALENDAR_EDIT,
+    ],
+  },
+  DOCUMENTS: {
+    label: 'Documents',
+    permissions: [
+      PERMISSIONS.DOCUMENTS_VIEW,
+      PERMISSIONS.DOCUMENTS_MANAGE,
+      PERMISSIONS.DOCUMENTS_CONFIDENTIAL,
+      PERMISSIONS.DOCUMENTS_UPLOAD,
+      PERMISSIONS.DOCUMENTS_DELETE_ALL,
+    ],
+  },
+  CHAT: {
+    label: 'Chat Rooms',
+    permissions: [
+      PERMISSIONS.CHAT_GENERAL,
+      PERMISSIONS.CHAT_COMMITTEE,
+      PERMISSIONS.CHAT_GRANTS_COMMITTEE,
+      PERMISSIONS.CHAT_EVENTS_COMMITTEE,
+      PERMISSIONS.CHAT_BOARD,
+      PERMISSIONS.CHAT_WEB_COMMITTEE,
+      PERMISSIONS.CHAT_VOLUNTEER_MANAGEMENT,
+      PERMISSIONS.CHAT_HOST,
+      PERMISSIONS.CHAT_DRIVER,
+      PERMISSIONS.CHAT_RECIPIENT,
+      PERMISSIONS.CHAT_CORE_TEAM,
+      PERMISSIONS.CHAT_DIRECT,
+      PERMISSIONS.CHAT_GROUP,
+    ],
+  },
+  ORGANIZATIONS: {
+    label: 'Organizations Catalog',
+    permissions: [
+      PERMISSIONS.ORGANIZATIONS_VIEW,
+    ],
+  },
+  TOOLKIT: {
+    label: 'Toolkit Access',
+    permissions: [
+      PERMISSIONS.TOOLKIT_ACCESS,
+    ],
+  },
+  KUDOS: {
+    label: 'Recognition & Kudos',
+    permissions: [
+      PERMISSIONS.KUDOS_SEND,
+      PERMISSIONS.KUDOS_RECEIVE,
+      PERMISSIONS.KUDOS_VIEW,
+      PERMISSIONS.KUDOS_MANAGE,
+    ],
+  },
+  RESOURCES: {
+    label: 'Resources & Tools',
+    permissions: [
+      PERMISSIONS.TOOLKIT_ACCESS,
+    ],
+  },
+  MEETINGS: {
+    label: 'Meetings',
+    permissions: [
+      PERMISSIONS.MEETINGS_VIEW,
+      PERMISSIONS.MEETINGS_MANAGE,
+    ],
+  },
+  EXPENSES: {
+    label: 'Expenses & Receipts',
+    permissions: [
+      PERMISSIONS.EXPENSES_VIEW,
+      PERMISSIONS.EXPENSES_ADD,
+      PERMISSIONS.EXPENSES_EDIT_OWN,
+      PERMISSIONS.EXPENSES_EDIT_ALL,
+      PERMISSIONS.EXPENSES_DELETE_OWN,
+      PERMISSIONS.EXPENSES_DELETE_ALL,
+      PERMISSIONS.EXPENSES_APPROVE,
+    ],
+  },
+  ANALYTICS: {
+    label: 'Analytics & Reporting',
+    permissions: [
+      PERMISSIONS.ANALYTICS_VIEW,
+      PERMISSIONS.ANALYTICS_EXPORT,
+    ],
+  },
+  DATA_MANAGEMENT: {
+    label: 'Data Import/Export',
+    permissions: [
+      PERMISSIONS.DATA_IMPORT,
+      PERMISSIONS.DATA_EXPORT,
+    ],
+  },
+  NAVIGATION: {
+    label: 'Navigation Tabs',
+    permissions: [
+      // Dashboard
+      PERMISSIONS.NAV_MY_ACTIONS,
+      PERMISSIONS.NAV_MY_AVAILABILITY,
+      PERMISSIONS.NAV_TEAM_AVAILABILITY,
+      PERMISSIONS.NAV_VOLUNTEER_CALENDAR,
+
+      // Collections
+      PERMISSIONS.NAV_COLLECTIONS_LOG,
+
+      // Communication
+      PERMISSIONS.NAV_TEAM_CHAT,
+      PERMISSIONS.NAV_INBOX,
+      PERMISSIONS.NAV_SUGGESTIONS,
+      PERMISSIONS.VIEW_HOLDING_ZONE,
+      PERMISSIONS.NAV_YEARLY_CALENDAR,
+      PERMISSIONS.NAV_PROMOTION,
+      PERMISSIONS.NAV_QUICK_SMS_LINKS,
+
+      // Operations
+      PERMISSIONS.NAV_HOSTS,
+      PERMISSIONS.NAV_DRIVERS,
+      PERMISSIONS.NAV_VOLUNTEERS,
+      PERMISSIONS.NAV_RECIPIENTS,
+      PERMISSIONS.NAV_GROUPS_CATALOG,
+      PERMISSIONS.NAV_DISTRIBUTION_TRACKING,
+      PERMISSIONS.NAV_INVENTORY_CALCULATOR,
+      PERMISSIONS.NAV_WORK_LOG,
+      PERMISSIONS.NAV_EXPENSES,
+      PERMISSIONS.NAV_COOLER_TRACKING,
+
+      // Event Planning
+      PERMISSIONS.NAV_EVENT_PLANNING,
+      PERMISSIONS.NAV_DRIVER_PLANNING,
+      PERMISSIONS.EVENT_REQUESTS_VIEW_ADMIN_OVERVIEW,
+      PERMISSIONS.NAV_EVENT_REMINDERS,
+      PERMISSIONS.NAV_SIGNUP_GENIUS,
+      PERMISSIONS.NAV_EVENTS_GOOGLE_SHEET,
+
+      // Strategic Planning
+      PERMISSIONS.NAV_PROJECTS,
+      PERMISSIONS.NAV_MEETINGS,
+
+      // Analytics & Reports
+      PERMISSIONS.NAV_ANALYTICS,
+      PERMISSIONS.NAV_GRANT_METRICS,
+      PERMISSIONS.NAV_WEEKLY_MONITORING,
+
+      // Documentation
+      PERMISSIONS.NAV_RESOURCES,
+      PERMISSIONS.NAV_IMPORTANT_LINKS,
+      PERMISSIONS.NAV_AUTO_FORM_FILLER,
+      PERMISSIONS.NAV_SERVICE_HOURS_FORM,
+      PERMISSIONS.NAV_WISHLIST,
+      PERMISSIONS.NAV_DOCUMENT_MANAGEMENT,
+      PERMISSIONS.NAV_VOLUNTEER_HUB,
+      PERMISSIONS.NAV_HOST_RESOURCES,
+
+      // Admin
+      PERMISSIONS.ADMIN_PANEL_ACCESS,
+      PERMISSIONS.NAV_USER_MANAGEMENT,
+      PERMISSIONS.NAV_HISTORICAL_IMPORT,
+
+      // Help
+      PERMISSIONS.NAV_HELP,
+    ],
+  },
+} as const;
+
+/**
+ * Get human-readable label for a permission
+ */
+export function getPermissionLabel(permission: string): string {
+  // Custom labels for specific permissions
+  const customLabels: Record<string, string> = {
+    [PERMISSIONS.NAV_IMPORTANT_LINKS]: 'Nav Quick Tools',
+    [PERMISSIONS.NAV_PROMOTION]: 'Nav Social Media Graphics',
+  };
+
+  // Return custom label if exists
+  if (customLabels[permission]) {
+    return customLabels[permission];
+  }
+
+  // Convert SNAKE_CASE to Title Case
+  return permission
+    .split('_')
+    .map(word => word.charAt(0) + word.slice(1).toLowerCase())
+    .join(' ');
+}
+
+/**
+ * Get permission description (optional - can be enhanced later)
+ */
+export function getPermissionDescription(permission: string): string {
+  const descriptions: Record<string, string> = {
+    [PERMISSIONS.ADMIN_ACCESS]: 'Full administrative access to the platform',
+    [PERMISSIONS.USERS_EDIT]: 'Edit user accounts and permissions',
+    [PERMISSIONS.HOSTS_VIEW]: 'View host location directory',
+    [PERMISSIONS.EVENT_REQUESTS_ASSIGN_OTHERS]: 'Assign team members to events',
+    [PERMISSIONS.EVENT_REQUESTS_VIEW_ADMIN_OVERVIEW]: 'View admin overview of TSP contact assignments and workload distribution',
+    [PERMISSIONS.EVENT_REQUESTS_SEND_SMS]: 'Send event details via SMS to selected users',
+
+    // Chat room descriptions
+    [PERMISSIONS.CHAT_GENERAL]: 'Access to general team chat',
+    [PERMISSIONS.CHAT_GRANTS_COMMITTEE]: 'Access to grants committee chat',
+    [PERMISSIONS.CHAT_EVENTS_COMMITTEE]: 'Access to events committee chat',
+    [PERMISSIONS.CHAT_BOARD]: 'Access to board members chat',
+    [PERMISSIONS.CHAT_WEB_COMMITTEE]: 'Access to web committee chat',
+    [PERMISSIONS.CHAT_VOLUNTEER_MANAGEMENT]: 'Access to volunteer management chat',
+    [PERMISSIONS.CHAT_HOST]: 'Access to host organization chat',
+    [PERMISSIONS.CHAT_DRIVER]: 'Access to driver coordination chat',
+    [PERMISSIONS.CHAT_RECIPIENT]: 'Access to recipient organization chat',
+    [PERMISSIONS.CHAT_CORE_TEAM]: 'Access to core team chat',
+    [PERMISSIONS.CHAT_DIRECT]: 'Access to direct messaging',
+    [PERMISSIONS.CHAT_GROUP]: 'Access to group chat features',
+
+    // Kudos descriptions
+    [PERMISSIONS.KUDOS_SEND]: 'Send kudos to recognize team members',
+    [PERMISSIONS.KUDOS_RECEIVE]: 'Receive kudos from other team members',
+    [PERMISSIONS.KUDOS_VIEW]: 'View kudos inbox and sent recognition',
+    [PERMISSIONS.KUDOS_MANAGE]: 'Administrative management of all kudos',
+
+    // Add more as needed...
+  };
+  return descriptions[permission] || getPermissionLabel(permission);
+}

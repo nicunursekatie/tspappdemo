@@ -1,0 +1,629 @@
+/**
+ * Premium Design System
+ *
+ * This file contains modern, professional styling enhancements that work
+ * alongside existing styles. Classes here use the "premium-" prefix to avoid
+ * conflicts and can be gradually adopted across the application.
+ *
+ * Brand Colors:
+ * - Primary Navy: #236383 (Trust, stability, primary CTAs)
+ * - Teal: #007E8C (Active states, success, emphasis)
+ * - Light Cyan: #47B3CB (Hover states, secondary actions)
+ * - Orange: #FBAD3F (Warnings, energy, important info)
+ * - Burgundy: #A31C41 (Errors, premium features, urgency)
+ */
+
+@layer components {
+  /* ========================================
+     REFINED COLOR SYSTEM
+     Using brand colors for status and semantic meaning
+     ======================================== */
+
+  .premium-status-success {
+    @apply px-3 py-1.5 text-sm font-medium rounded-full;
+    background: rgba(0, 126, 140, 0.08);
+    color: #006B75;
+    border: 1px solid rgba(0, 126, 140, 0.2);
+  }
+
+  .premium-status-progress {
+    @apply px-3 py-1.5 text-sm font-medium rounded-full;
+    background: rgba(251, 173, 63, 0.1);
+    color: #E89A2F;
+    border: 1px solid rgba(251, 173, 63, 0.25);
+  }
+
+  .premium-status-pending {
+    @apply px-3 py-1.5 text-sm font-medium rounded-full;
+    background: rgba(71, 179, 203, 0.1);
+    color: #007E8C;
+    border: 1px solid rgba(71, 179, 203, 0.25);
+  }
+
+  .premium-status-error {
+    @apply px-3 py-1.5 text-sm font-medium rounded-full;
+    background: rgba(163, 28, 65, 0.08);
+    color: #A31C41;
+    border: 1px solid rgba(163, 28, 65, 0.2);
+  }
+
+  .premium-status-info {
+    @apply px-3 py-1.5 text-sm font-medium rounded-full;
+    background: rgba(35, 99, 131, 0.06);
+    color: #1e5a75;
+    border: 1px solid rgba(35, 99, 131, 0.15);
+  }
+
+  /* ========================================
+     MODERN ELEVATION SYSTEM
+     Sophisticated shadows using brand colors
+     ======================================== */
+
+  .elevation-1 {
+    box-shadow:
+      0 1px 3px rgba(35, 99, 131, 0.08),
+      0 1px 2px rgba(0, 126, 140, 0.06);
+  }
+
+  .elevation-2 {
+    box-shadow:
+      0 4px 6px rgba(35, 99, 131, 0.07),
+      0 2px 4px rgba(0, 126, 140, 0.06),
+      0 0 1px rgba(35, 99, 131, 0.04);
+  }
+
+  .elevation-3 {
+    box-shadow:
+      0 10px 25px rgba(35, 99, 131, 0.1),
+      0 6px 12px rgba(0, 126, 140, 0.08),
+      0 0 1px rgba(35, 99, 131, 0.05);
+  }
+
+  .elevation-hover {
+    box-shadow:
+      0 12px 28px rgba(35, 99, 131, 0.12),
+      0 8px 16px rgba(0, 126, 140, 0.1),
+      0 2px 8px rgba(71, 179, 203, 0.08);
+    transform: translateY(-2px);
+  }
+
+  /* ========================================
+     PREMIUM BUTTON SYSTEM
+     Unified, semantic button variants
+     ======================================== */
+
+  .premium-btn {
+    @apply px-5 py-2.5 font-medium rounded-lg transition-all duration-300 ease-out inline-flex items-center justify-center gap-2 focus:outline-none focus:ring-4;
+    min-height: 44px;
+  }
+
+  /* Primary - Main actions */
+  .premium-btn-primary {
+    @apply premium-btn;
+    background: linear-gradient(135deg, #236383 0%, #1e5a75 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(35, 99, 131, 0.24);
+  }
+
+  .premium-btn-primary:hover {
+    box-shadow: 0 4px 12px rgba(35, 99, 131, 0.32);
+    transform: translateY(-1px);
+  }
+
+  .premium-btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(35, 99, 131, 0.28);
+  }
+
+  .premium-btn-primary:focus {
+    @apply ring-[#236383]/30;
+  }
+
+  /* Secondary - Same primary color, lighter treatment */
+  .premium-btn-secondary {
+    @apply premium-btn;
+    background: #236383;
+    color: white;
+    box-shadow: 0 2px 6px rgba(35, 99, 131, 0.20);
+  }
+
+  .premium-btn-secondary:hover {
+    background: #1e5a75;
+    box-shadow: 0 4px 10px rgba(35, 99, 131, 0.28);
+    transform: translateY(-1px);
+  }
+
+  .premium-btn-secondary:active {
+    transform: translateY(0);
+  }
+
+  .premium-btn-secondary:focus {
+    @apply ring-[#236383]/30;
+  }
+
+  /* Accent - Attention grabbing */
+  .premium-btn-accent {
+    @apply premium-btn;
+    background: linear-gradient(135deg, #FBAD3F 0%, #E89A2F 100%);
+    color: #236383;
+    box-shadow: 0 2px 8px rgba(251, 173, 63, 0.28);
+    font-weight: 600;
+  }
+
+  .premium-btn-accent:hover {
+    box-shadow: 0 4px 12px rgba(251, 173, 63, 0.36);
+    transform: translateY(-1px);
+  }
+
+  .premium-btn-accent:active {
+    transform: translateY(0);
+  }
+
+  .premium-btn-accent:focus {
+    @apply ring-[#FBAD3F]/30;
+  }
+
+  /* Outline - Tertiary actions */
+  .premium-btn-outline {
+    @apply premium-btn;
+    background: transparent;
+    border: 2px solid #236383;
+    color: #236383;
+  }
+
+  .premium-btn-outline:hover {
+    background: rgba(35, 99, 131, 0.04);
+    border-color: #1e5a75;
+  }
+
+  .premium-btn-outline:focus {
+    @apply ring-[#236383]/20;
+  }
+
+  /* Ghost - Minimal emphasis */
+  .premium-btn-ghost {
+    @apply premium-btn;
+    background: transparent;
+    color: #236383;
+  }
+
+  .premium-btn-ghost:hover {
+    background: rgba(35, 99, 131, 0.06);
+  }
+
+  .premium-btn-ghost:focus {
+    @apply ring-[#236383]/20;
+  }
+
+  /* Danger - Critical actions */
+  .premium-btn-danger {
+    @apply premium-btn;
+    background: linear-gradient(135deg, #A31C41 0%, #8B1736 100%);
+    color: white;
+    box-shadow: 0 2px 8px rgba(163, 28, 65, 0.24);
+  }
+
+  .premium-btn-danger:hover {
+    box-shadow: 0 4px 12px rgba(163, 28, 65, 0.32);
+    transform: translateY(-1px);
+  }
+
+  .premium-btn-danger:focus {
+    @apply ring-[#A31C41]/30;
+  }
+
+  /* Button sizes */
+  .premium-btn-sm {
+    @apply px-3 py-1.5 text-sm;
+    min-height: 36px;
+  }
+
+  .premium-btn-lg {
+    @apply px-7 py-3.5 text-lg;
+    min-height: 52px;
+  }
+
+  /* ========================================
+     PROFESSIONAL CARD TREATMENTS
+     Modern, elevated card designs
+     ======================================== */
+
+  .premium-card {
+    @apply bg-white rounded-xl transition-all duration-300;
+    border: 1px solid rgba(35, 99, 131, 0.08);
+    box-shadow:
+      0 1px 3px rgba(35, 99, 131, 0.06),
+      0 1px 2px rgba(0, 126, 140, 0.04);
+  }
+
+  .premium-card:hover {
+    border-color: rgba(71, 179, 203, 0.2);
+    box-shadow:
+      0 8px 16px rgba(35, 99, 131, 0.1),
+      0 4px 8px rgba(0, 126, 140, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .premium-card-flat {
+    @apply bg-white rounded-xl;
+    border: 1px solid rgba(35, 99, 131, 0.08);
+  }
+
+  .premium-card-elevated {
+    @apply bg-white rounded-xl;
+    border: 1px solid rgba(35, 99, 131, 0.08);
+    box-shadow:
+      0 4px 6px rgba(35, 99, 131, 0.07),
+      0 2px 4px rgba(0, 126, 140, 0.06);
+  }
+
+  .premium-card-featured {
+    @apply bg-white rounded-xl relative;
+    background: linear-gradient(135deg,
+      rgba(35, 99, 131, 0.02) 0%,
+      rgba(71, 179, 203, 0.03) 100%);
+    border: 2px solid rgba(35, 99, 131, 0.12);
+    box-shadow:
+      0 4px 6px rgba(35, 99, 131, 0.07),
+      0 2px 4px rgba(0, 126, 140, 0.06);
+  }
+
+  .premium-card-featured::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #236383, #007E8C, #47B3CB);
+    border-radius: 1rem 1rem 0 0;
+  }
+
+  /* Glass card effect */
+  .premium-card-glass {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    box-shadow:
+      0 8px 32px rgba(35, 99, 131, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  /* ========================================
+     ENHANCED INPUT STYLING
+     Professional form inputs
+     ======================================== */
+
+  .premium-input {
+    @apply bg-white rounded-lg px-4 py-2.5 text-base transition-all duration-200;
+    border: 2px solid rgba(35, 99, 131, 0.12);
+    min-height: 44px;
+  }
+
+  .premium-input:hover {
+    border-color: rgba(71, 179, 203, 0.3);
+  }
+
+  .premium-input:focus {
+    border-color: #236383;
+    box-shadow: 0 0 0 3px rgba(35, 99, 131, 0.1);
+    outline: none;
+  }
+
+  .premium-input::placeholder {
+    color: rgba(35, 99, 131, 0.4);
+  }
+
+  /* ========================================
+     GRADIENT BACKGROUNDS
+     Subtle brand gradients
+     ======================================== */
+
+  .premium-gradient-primary {
+    background: linear-gradient(135deg, #236383 0%, #007E8C 100%);
+  }
+
+  .premium-gradient-warm {
+    background: linear-gradient(135deg, #FBAD3F 0%, #A31C41 100%);
+  }
+
+  .premium-gradient-cool {
+    background: linear-gradient(135deg, #47B3CB 0%, #007E8C 50%, #236383 100%);
+  }
+
+  .premium-gradient-subtle {
+    background: linear-gradient(180deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(71, 179, 203, 0.02) 50%,
+      rgba(35, 99, 131, 0.03) 100%);
+  }
+
+  .premium-gradient-mesh {
+    background:
+      radial-gradient(circle at 20% 20%, rgba(35, 99, 131, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(0, 126, 140, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, rgba(71, 179, 203, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(251, 173, 63, 0.08) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(35, 99, 131, 0.03) 0%, rgba(71, 179, 203, 0.03) 100%);
+  }
+
+  /* ========================================
+     TYPOGRAPHY SCALE
+     Clear, professional type hierarchy
+     ======================================== */
+
+  .premium-text-display-lg {
+    @apply text-5xl lg:text-6xl font-bold leading-tight;
+    color: #1A2332;
+  }
+
+  .premium-text-display {
+    @apply text-4xl lg:text-5xl font-bold leading-tight;
+    color: #1A2332;
+  }
+
+  .premium-text-h1 {
+    @apply text-3xl lg:text-4xl font-semibold leading-snug;
+    color: #1A2332;
+  }
+
+  .premium-text-h2 {
+    @apply text-2xl lg:text-3xl font-semibold leading-snug;
+    color: #236383;
+  }
+
+  .premium-text-h3 {
+    @apply text-xl lg:text-2xl font-semibold leading-normal;
+    color: #236383;
+  }
+
+  .premium-text-h4 {
+    @apply text-lg lg:text-xl font-semibold leading-normal;
+    color: #236383;
+  }
+
+  .premium-text-body-lg {
+    @apply text-lg leading-relaxed;
+    color: #605251;
+  }
+
+  .premium-text-body {
+    @apply text-base leading-relaxed;
+    color: #605251;
+  }
+
+  .premium-text-body-sm {
+    @apply text-sm leading-relaxed;
+    color: #605251;
+  }
+
+  .premium-text-caption {
+    @apply text-xs font-medium leading-snug tracking-wide;
+    color: rgba(35, 99, 131, 0.7);
+  }
+
+  /* ========================================
+     INTERACTIVE STATES
+     Enhanced hover and focus states
+     ======================================== */
+
+  .premium-interactive {
+    @apply transition-all duration-300 ease-out cursor-pointer;
+  }
+
+  .premium-interactive:hover {
+    transform: translateY(-2px);
+  }
+
+  .premium-interactive:active {
+    transform: translateY(0);
+  }
+
+  .premium-focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-4;
+    --tw-ring-color: rgba(35, 99, 131, 0.2);
+  }
+
+  .premium-focus-ring-teal {
+    @apply focus-visible:outline-none focus-visible:ring-4;
+    --tw-ring-color: rgba(0, 126, 140, 0.2);
+  }
+
+  /* ========================================
+     BADGE SYSTEM
+     Modern status and info badges
+     ======================================== */
+
+  .premium-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full;
+  }
+
+  .premium-badge-success {
+    @apply premium-badge;
+    background: rgba(0, 126, 140, 0.1);
+    color: #006B75;
+  }
+
+  .premium-badge-warning {
+    @apply premium-badge;
+    background: rgba(251, 173, 63, 0.12);
+    color: #E89A2F;
+  }
+
+  .premium-badge-info {
+    @apply premium-badge;
+    background: rgba(35, 99, 131, 0.08);
+    color: #1e5a75;
+  }
+
+  .premium-badge-error {
+    @apply premium-badge;
+    background: rgba(163, 28, 65, 0.1);
+    color: #A31C41;
+  }
+
+  /* ========================================
+     DIVIDERS & SEPARATORS
+     Subtle section separators
+     ======================================== */
+
+  .premium-divider {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(35, 99, 131, 0.1) 20%,
+      rgba(35, 99, 131, 0.15) 50%,
+      rgba(35, 99, 131, 0.1) 80%,
+      transparent 100%
+    );
+  }
+
+  .premium-divider-vertical {
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(35, 99, 131, 0.1) 20%,
+      rgba(35, 99, 131, 0.15) 50%,
+      rgba(35, 99, 131, 0.1) 80%,
+      transparent 100%
+    );
+  }
+
+  /* ========================================
+     PROGRESS BARS
+     Brand-colored progress indicators
+     ======================================== */
+
+  .premium-progress {
+    @apply w-full h-2 rounded-full overflow-hidden;
+    background: rgba(35, 99, 131, 0.08);
+  }
+
+  .premium-progress-bar {
+    @apply h-full rounded-full transition-all duration-500;
+    background: linear-gradient(90deg, #236383, #007E8C, #47B3CB);
+    box-shadow: 0 0 12px rgba(35, 99, 131, 0.3);
+  }
+
+  /* ========================================
+     TOOLTIPS & POPOVERS
+     Modern overlay styling
+     ======================================== */
+
+  .premium-tooltip {
+    @apply px-3 py-2 text-sm font-medium rounded-lg;
+    background: rgba(26, 35, 50, 0.95);
+    color: white;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .premium-popover {
+    @apply rounded-xl p-4;
+    background: white;
+    border: 1px solid rgba(35, 99, 131, 0.1);
+    box-shadow:
+      0 10px 25px rgba(35, 99, 131, 0.1),
+      0 6px 12px rgba(0, 126, 140, 0.08);
+  }
+
+  /* ========================================
+     LOADING STATES
+     Brand-colored loading indicators
+     ======================================== */
+
+  .premium-skeleton {
+    @apply rounded-lg;
+    background: linear-gradient(
+      90deg,
+      rgba(35, 99, 131, 0.04) 0%,
+      rgba(71, 179, 203, 0.08) 50%,
+      rgba(35, 99, 131, 0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: premium-shimmer 1.5s ease-in-out infinite;
+  }
+
+  @keyframes premium-shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .premium-spinner {
+    @apply inline-block w-5 h-5 border-[3px] rounded-full;
+    border-color: rgba(35, 99, 131, 0.2);
+    border-top-color: #236383;
+    animation: premium-spin 0.8s linear infinite;
+  }
+
+  @keyframes premium-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ========================================
+     UTILITY CLASSES
+     Helpful composable utilities
+     ======================================== */
+
+  .premium-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .premium-section {
+    @apply py-12 lg:py-20;
+  }
+
+  .premium-grid {
+    @apply grid gap-6 md:gap-8;
+  }
+
+  .premium-flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .premium-flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  /* ========================================
+     RESPONSIVE MOBILE ENHANCEMENTS
+     Touch-friendly premium styling
+     ======================================== */
+
+  @media (max-width: 768px) {
+    .premium-btn {
+      min-height: 48px;
+      @apply px-4 py-3;
+    }
+
+    .premium-input {
+      min-height: 48px;
+      @apply text-base;
+    }
+
+    .premium-card {
+      @apply rounded-lg;
+    }
+
+    .premium-text-display-lg {
+      @apply text-3xl;
+    }
+
+    .premium-text-display {
+      @apply text-2xl;
+    }
+
+    .premium-text-h1 {
+      @apply text-xl;
+    }
+  }
+}

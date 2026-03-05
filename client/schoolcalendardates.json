@@ -1,0 +1,199 @@
+[
+  {
+    "id": "schoolbreak-2025-2026-winter-2026-02-16-aps-cobb-dekalb",
+    "type": "school_break",
+    "label": "Winter Break",
+    "startDate": "2026-02-16",
+    "endDate": "2026-02-20",
+    "districts": ["APS", "Cobb", "DeKalb"],
+    "academicYear": "2025-2026",
+    "notes": "Most districts off this week; expect availability/travel effects."
+  },
+  {
+    "id": "schoolbreak-2025-2026-winter-2026-02-12-gwinnett",
+    "type": "school_break",
+    "label": "Winter Break",
+    "startDate": "2026-02-12",
+    "endDate": "2026-02-16",
+    "districts": ["Gwinnett"],
+    "academicYear": "2025-2026",
+    "notes": "Gwinnett holiday break window differs from other districts."
+  },
+  {
+    "id": "schoolbreak-2025-2026-winter-2026-02-16-fulton",
+    "type": "school_break",
+    "label": "Winter Break",
+    "startDate": "2026-02-16",
+    "endDate": "2026-02-17",
+    "districts": ["Fulton"],
+    "academicYear": "2025-2026",
+    "notes": "Shorter Fulton break compared to others."
+  },
+
+  {
+    "id": "schoolbreak-2025-2026-spring-2026-04-06-all-major-districts",
+    "type": "school_break",
+    "label": "Spring Break",
+    "startDate": "2026-04-06",
+    "endDate": "2026-04-10",
+    "districts": ["APS", "Fulton", "Cobb", "Gwinnett", "DeKalb"],
+    "academicYear": "2025-2026",
+    "notes": "All major districts aligned."
+  },
+
+  {
+    "id": "schoolmarker-2025-2026-lastday-2026-05-20-cobb-gwinnett",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2026-05-20",
+    "endDate": "2026-05-20",
+    "districts": ["Cobb", "Gwinnett"],
+    "academicYear": "2025-2026",
+    "notes": ""
+  },
+  {
+    "id": "schoolmarker-2025-2026-lastday-2026-05-21-fulton",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2026-05-21",
+    "endDate": "2026-05-21",
+    "districts": ["Fulton"],
+    "academicYear": "2025-2026",
+    "notes": ""
+  },
+  {
+    "id": "schoolmarker-2025-2026-lastday-2026-05-22-aps",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2026-05-22",
+    "endDate": "2026-05-22",
+    "districts": ["APS"],
+    "academicYear": "2025-2026",
+    "notes": ""
+  },
+  {
+    "id": "schoolmarker-2025-2026-lastday-2026-05-28-dekalb",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2026-05-28",
+    "endDate": "2026-05-28",
+    "districts": ["DeKalb"],
+    "academicYear": "2025-2026",
+    "notes": ""
+  },
+
+  {
+    "id": "schoolmarker-2026-2027-firstday-2026-08-03-aps-cobb-dekalb-fulton",
+    "type": "school_marker",
+    "label": "School Starts",
+    "startDate": "2026-08-03",
+    "endDate": "2026-08-03",
+    "districts": ["APS", "Fulton", "Cobb", "DeKalb"],
+    "academicYear": "2026-2027",
+    "notes": ""
+  },
+  {
+    "id": "schoolmarker-2026-2027-firstday-2026-08-05-gwinnett",
+    "type": "school_marker",
+    "label": "School Starts",
+    "startDate": "2026-08-05",
+    "endDate": "2026-08-05",
+    "districts": ["Gwinnett"],
+    "academicYear": "2026-2027",
+    "notes": ""
+  },
+
+  {
+    "id": "schoolbreak-2026-2027-fall-2026-09-21-fulton-cobb",
+    "type": "school_break",
+    "label": "Fall Break",
+    "startDate": "2026-09-21",
+    "endDate": "2026-09-25",
+    "districts": ["Fulton", "Cobb"],
+    "academicYear": "2026-2027",
+    "notes": "Fulton/Cobb fall break window."
+  },
+  {
+    "id": "schoolbreak-2026-2027-fall-2026-10-05-dekalb",
+    "type": "school_break",
+    "label": "Fall Break",
+    "startDate": "2026-10-05",
+    "endDate": "2026-10-09",
+    "districts": ["DeKalb"],
+    "academicYear": "2026-2027",
+    "notes": "DeKalb fall break window."
+  },
+  {
+    "id": "schoolbreak-2026-2027-fall-2026-10-12-aps-gwinnett",
+    "type": "school_break",
+    "label": "Fall Break",
+    "startDate": "2026-10-12",
+    "endDate": "2026-10-16",
+    "districts": ["APS", "Gwinnett"],
+    "academicYear": "2026-2027",
+    "notes": "APS/Gwinnett fall break window."
+  },
+
+  {
+    "id": "schoolbreak-2026-2027-winter-2027-02-15-aps-cobb-dekalb-fulton",
+    "type": "school_break",
+    "label": "Winter Break",
+    "startDate": "2027-02-15",
+    "endDate": "2027-02-19",
+    "districts": ["APS", "Fulton", "Cobb", "DeKalb"],
+    "academicYear": "2026-2027",
+    "notes": "Most districts aligned."
+  },
+  {
+    "id": "schoolbreak-2026-2027-winter-2027-02-12-gwinnett",
+    "type": "school_break",
+    "label": "Winter Break",
+    "startDate": "2027-02-12",
+    "endDate": "2027-02-16",
+    "districts": ["Gwinnett"],
+    "academicYear": "2026-2027",
+    "notes": "Gwinnett holiday break window differs from other districts."
+  },
+
+  {
+    "id": "schoolbreak-2026-2027-spring-2027-04-05-all-major-districts",
+    "type": "school_break",
+    "label": "Spring Break",
+    "startDate": "2027-04-05",
+    "endDate": "2027-04-09",
+    "districts": ["APS", "Fulton", "Cobb", "Gwinnett", "DeKalb"],
+    "academicYear": "2026-2027",
+    "notes": "All major districts aligned."
+  },
+
+  {
+    "id": "schoolmarker-2026-2027-lastday-2027-05-19-cobb",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2027-05-19",
+    "endDate": "2027-05-19",
+    "districts": ["Cobb"],
+    "academicYear": "2026-2027",
+    "notes": ""
+  },
+  {
+    "id": "schoolmarker-2026-2027-lastday-2027-05-26-gwinnett",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2027-05-26",
+    "endDate": "2027-05-26",
+    "districts": ["Gwinnett"],
+    "academicYear": "2026-2027",
+    "notes": ""
+  },
+  {
+    "id": "schoolmarker-2026-2027-lastday-2027-05-27-aps-dekalb",
+    "type": "school_marker",
+    "label": "Last Day of School",
+    "startDate": "2027-05-27",
+    "endDate": "2027-05-27",
+    "districts": ["APS", "DeKalb"],
+    "academicYear": "2026-2027",
+    "notes": ""
+  }
+]

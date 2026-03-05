@@ -1,0 +1,26 @@
+/**
+ * SendGrid Compliance: Centralized email footer with required opt-out text
+ * All emails MUST include unsubscribe information for SendGrid compliance
+ */
+
+export const EMAIL_FOOTER_TEXT = `
+---
+The Sandwich Project
+Fighting food insecurity one sandwich at a time
+
+To unsubscribe from these emails, please contact us at katie@thesandwichproject.org or reply STOP.
+`;
+
+export const EMAIL_FOOTER_HTML = `
+<div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
+  <p style="color: #888; font-size: 12px; margin: 0 0 10px 0;">
+    The Sandwich Project<br>
+    Fighting food insecurity one sandwich at a time
+  </p>
+  <p style="color: #888; font-size: 11px; margin: 0;">
+    To unsubscribe from these emails, please contact us at 
+    <a href="mailto:katie@thesandwichproject.org" style="color: #236383;">katie@thesandwichproject.org</a> 
+    or reply STOP.
+  </p>
+</div>
+`;

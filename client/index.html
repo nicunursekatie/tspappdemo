@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
+
+    <!-- Prevent aggressive caching during development -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <title>The Sandwich Project</title>
+
+    <!-- Preload critical assets for faster FCP/LCP -->
+    <link rel="preload" href="/logo-optimized.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="/sandwich-icon-optimized.svg" as="image" type="image/svg+xml">
+    <link rel="preload" href="/src/main.tsx" as="script">
+    <link rel="preload" href="/src/index.css" as="style">
+    
+    <!-- DNS prefetch for external resources -->
+    <link rel="dns-prefetch" href="//www.googletagmanager.com">
+    
+    <!-- Google Analytics - dataLayer initialization (script loaded dynamically by app) -->
+    <script>
+      // Initialize dataLayer for Google Analytics
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- Unregister service workers (temporary - remove after deployment) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const registration of registrations) {
+            registration.unregister().then((success) => {
+              if (success) {
+                console.log('[SW Cleanup] Service worker unregistered:', registration.scope);
+              }
+            });
+          }
+          // Clear all caches
+          caches.keys().then((cacheNames) => {
+            cacheNames.forEach((cacheName) => {
+              caches.delete(cacheName);
+              console.log('[SW Cleanup] Cache deleted:', cacheName);
+            });
+          });
+        });
+      }
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>

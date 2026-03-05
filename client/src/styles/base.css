@@ -1,0 +1,195 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&family=Lobster&family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+
+.leaflet-container img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+.leaflet-container .leaflet-marker-icon,
+.leaflet-container .leaflet-marker-shadow {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* Fix for horizontal scroll issues */
+html, body {
+  @apply overflow-x-hidden;
+}
+
+body {
+  overscroll-behavior-x: none;
+}
+
+@supports (padding: max(0px)) {
+  .safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Respect user's motion preferences for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+@layer base {
+  :root {
+    --color-background: 42 29% 98%; /* #FAF8F5 - Warm paper tone */
+    --color-foreground: 222 47% 11%; /* #0F172A - Near black */
+    --color-muted: 30 8% 91%; /* #E7E4DF - Warm neutral dividers */
+    --color-muted-foreground: 215 16% 47%; /* #6B7280 - Sublabels */
+    --color-popover: 0 0% 100%; /* #FFFFFF */
+    --color-popover-foreground: 222 47% 11%; /* #0F172A */
+    --color-card: 0 0% 100%; /* #FFFFFF - White cards for contrast */
+    --color-card-foreground: 220 9% 18%; /* #1F2937 - Body text */
+    --color-border: 211 15% 88%; /* #D8DEE2 - Stronger borders */
+    --color-input: 30 15% 96%; /* #F5F2EE - Panel bg */
+    --color-primary: 197 100% 28%; /* #236383 - Brand Primary */
+    --color-primary-foreground: 0 0% 100%; /* #FFFFFF */
+    --color-primary-hover: 197 100% 24%;
+    /* Brand Variables */
+    --color-brand-primary: #236383;
+    --color-brand-secondary: #FBAD3F;
+    --color-brand-accent: #A31C41;
+    --color-brand-muted: #007E8C;
+    --color-brand-teal: #007E8C;
+    --color-brand-teal-light: #47B3CB;
+    --color-brand-teal-hover: #006B75;
+    --color-brand-teal-dark: #1A4F61;
+    --color-brand-orange: #FBAD3F;
+    --color-brand-navy: #1A2332;
+    --color-secondary: 35 96% 62%; /* #FBAD3F exact HSL conversion */
+    --color-secondary-foreground: 0 0% 100%; /* White text on gold */
+    --color-accent: 342 63% 38%; /* #A31C41 - Burgundy */
+    --color-accent-foreground: 0 0% 100%; /* #FFFFFF */
+    --color-destructive: 0 84% 60%; /* #EF4444 */
+    --color-destructive-foreground: 0 0% 100%; /* #FFFFFF */
+    --color-ring: 197 100% 37%; /* #007EBC */
+    --radius: 12px; /* Updated to 12px for modern feel */
+    /* Compact spacing scale */
+    --gap: 12px;
+    --pad: 12px;
+    --chip-padding: 4px 8px;
+    /* Premium design system radius values */
+    --radius-premium-sm: 8px;
+    --radius-premium-md: 12px;
+    --radius-premium-lg: 16px;
+    --radius-premium-xl: 20px;
+    --color-gradient-from: 210 100% 98%;
+    --color-gradient-via: 220 50% 96%;
+    --color-gradient-to: 230 25% 94%;
+    /* Brand variables have overrides applied by ThemeProvider */
+  }
+
+  .dark {
+    --color-background: 222.2 84% 4.9%;
+    --color-foreground: 210 40% 98%;
+    --color-card: 222.2 84% 4.9%;
+    --color-card-foreground: 210 40% 98%;
+    --color-popover: 222.2 84% 4.9%;
+    --color-popover-foreground: 210 40% 98%;
+    /* --color-primary moved to ThemeProvider */
+    --color-primary-foreground: 222.2 47.4% 11.2%;
+    --color-secondary: 217.2 32.6% 17.5%;
+    --color-secondary-foreground: 210 40% 98%;
+    --color-muted: 217.2 32.6% 17.5%;
+    --color-muted-foreground: 215 20.2% 65.1%;
+    --color-accent: 217.2 32.6% 17.5%;
+    --color-accent-foreground: 210 40% 98%;
+    --color-destructive: 0 62.8% 30.6%;
+    --color-destructive-foreground: 210 40% 98%;
+    --color-border: 217.2 32.6% 17.5%;
+    --color-input: 217.2 32.6% 17.5%;
+    --color-ring: 212.7 26.8% 83.9%;
+    --color-gradient-from: 222 84% 6%;
+    --color-gradient-via: 217 33% 18%;
+    --color-gradient-to: 222 47% 12%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased text-foreground;
+    font-family: 'Roboto', system-ui, sans-serif;
+    background-color: #007E8C; /* Deep teal for app shell */
+  }
+
+  .font-main-heading {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  /* Punchy headings */
+  h1, h2, h3, h4, h5, h6 {
+    color: #0F172A;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .font-sub-heading {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+  }
+
+  .font-body {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+  }
+
+  .font-body-light {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+  }
+
+  .font-highlight {
+    font-family: 'Lobster', cursive;
+    font-weight: 400;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  input[type="url"],
+  textarea,
+  select,
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="number"]:focus,
+  input[type="tel"]:focus,
+  input[type="search"]:focus,
+  input[type="date"]:focus,
+  input[type="time"]:focus,
+  input[type="datetime-local"]:focus,
+  input[type="url"]:focus,
+  textarea:focus,
+  select:focus {
+    @apply bg-white;
+  }
+}

@@ -1,0 +1,237 @@
+[
+  {
+    "id": "christian-2026-ash-wednesday",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Ash Wednesday",
+    "startDate": "2026-02-18",
+    "endDate": "2026-02-18",
+    "notes": "Beginning of Lent. Some volunteers may attend services or observe fasting."
+  },
+  {
+    "id": "christian-2026-palm-sunday",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Palm Sunday",
+    "startDate": "2026-03-29",
+    "endDate": "2026-03-29",
+    "notes": "Start of Holy Week. Church attendance typically high."
+  },
+  {
+    "id": "jewish-2026-purim",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Purim",
+    "startDate": "2026-03-03",
+    "endDate": "2026-03-03",
+    "notes": "Begins evening of March 2. Celebration of the saving of the Jewish people as told in the Book of Esther."
+  },
+  {
+    "id": "jewish-2026-passover",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Passover (Pesach)",
+    "startDate": "2026-04-02",
+    "endDate": "2026-04-09",
+    "notes": "Begins evening of April 1. Major holiday celebrating the Exodus from Egypt. First and last two days are most observed."
+  },
+  {
+    "id": "christian-2026-good-friday",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Good Friday",
+    "startDate": "2026-04-03",
+    "endDate": "2026-04-03",
+    "notes": "Many workplaces and schools may close. Expect reduced volunteer availability."
+  },
+  {
+    "id": "christian-2026-easter",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Easter Sunday",
+    "startDate": "2026-04-05",
+    "endDate": "2026-04-05",
+    "notes": "Major Christian holiday. Expect very low volunteer availability."
+  },
+  {
+    "id": "jewish-2026-shavuot",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Shavuot",
+    "startDate": "2026-05-22",
+    "endDate": "2026-05-23",
+    "notes": "Begins evening of May 21. Celebrates the giving of the Torah at Mount Sinai."
+  },
+  {
+    "id": "jewish-2026-rosh-hashanah",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Rosh Hashanah",
+    "startDate": "2026-09-12",
+    "endDate": "2026-09-13",
+    "notes": "Begins evening of September 11. Jewish New Year and start of the High Holy Days. Expect reduced availability for Jewish volunteers."
+  },
+  {
+    "id": "jewish-2026-yom-kippur",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Yom Kippur",
+    "startDate": "2026-09-21",
+    "endDate": "2026-09-21",
+    "notes": "Begins evening of September 20. Holiest day in Judaism; day of fasting and atonement. Expect reduced availability."
+  },
+  {
+    "id": "jewish-2026-sukkot",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Sukkot",
+    "startDate": "2026-09-26",
+    "endDate": "2026-10-02",
+    "notes": "Begins evening of September 25. Week-long harvest festival."
+  },
+  {
+    "id": "christian-2026-christmas-eve",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Christmas Eve",
+    "startDate": "2026-12-24",
+    "endDate": "2026-12-24",
+    "notes": "Many volunteers will be unavailable due to family gatherings and church services."
+  },
+  {
+    "id": "christian-2026-christmas",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Christmas Day",
+    "startDate": "2026-12-25",
+    "endDate": "2026-12-25",
+    "notes": "Federal holiday. Most volunteers and organizations will be closed."
+  },
+  {
+    "id": "jewish-2026-hanukkah",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Hanukkah",
+    "startDate": "2026-12-05",
+    "endDate": "2026-12-12",
+    "notes": "Begins evening of December 4. Eight-day Festival of Lights."
+  },
+
+  {
+    "id": "christian-2027-ash-wednesday",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Ash Wednesday",
+    "startDate": "2027-02-10",
+    "endDate": "2027-02-10",
+    "notes": "Beginning of Lent. Some volunteers may attend services or observe fasting."
+  },
+  {
+    "id": "christian-2027-palm-sunday",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Palm Sunday",
+    "startDate": "2027-03-21",
+    "endDate": "2027-03-21",
+    "notes": "Start of Holy Week. Church attendance typically high."
+  },
+  {
+    "id": "jewish-2027-purim",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Purim",
+    "startDate": "2027-03-22",
+    "endDate": "2027-03-22",
+    "notes": "Begins evening of March 21. Celebration of the saving of the Jewish people as told in the Book of Esther."
+  },
+  {
+    "id": "christian-2027-good-friday",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Good Friday",
+    "startDate": "2027-03-26",
+    "endDate": "2027-03-26",
+    "notes": "Many workplaces and schools may close. Expect reduced volunteer availability."
+  },
+  {
+    "id": "christian-2027-easter",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Easter Sunday",
+    "startDate": "2027-03-28",
+    "endDate": "2027-03-28",
+    "notes": "Major Christian holiday. Expect very low volunteer availability."
+  },
+  {
+    "id": "jewish-2027-passover",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Passover (Pesach)",
+    "startDate": "2027-04-22",
+    "endDate": "2027-04-29",
+    "notes": "Begins evening of April 21. Major holiday celebrating the Exodus from Egypt. First and last two days are most observed."
+  },
+  {
+    "id": "jewish-2027-shavuot",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Shavuot",
+    "startDate": "2027-06-11",
+    "endDate": "2027-06-12",
+    "notes": "Begins evening of June 10. Celebrates the giving of the Torah at Mount Sinai."
+  },
+  {
+    "id": "jewish-2027-rosh-hashanah",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Rosh Hashanah",
+    "startDate": "2027-10-02",
+    "endDate": "2027-10-03",
+    "notes": "Begins evening of October 1. Jewish New Year and start of the High Holy Days. Expect reduced availability for Jewish volunteers."
+  },
+  {
+    "id": "jewish-2027-yom-kippur",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Yom Kippur",
+    "startDate": "2027-10-11",
+    "endDate": "2027-10-11",
+    "notes": "Begins evening of October 10. Holiest day in Judaism; day of fasting and atonement. Expect reduced availability."
+  },
+  {
+    "id": "jewish-2027-sukkot",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Sukkot",
+    "startDate": "2027-10-16",
+    "endDate": "2027-10-22",
+    "notes": "Begins evening of October 15. Week-long harvest festival."
+  },
+  {
+    "id": "christian-2027-christmas-eve",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Christmas Eve",
+    "startDate": "2027-12-24",
+    "endDate": "2027-12-24",
+    "notes": "Many volunteers will be unavailable due to family gatherings and church services."
+  },
+  {
+    "id": "christian-2027-christmas",
+    "tradition": "Christian",
+    "type": "religious_holiday",
+    "label": "Christmas Day",
+    "startDate": "2027-12-25",
+    "endDate": "2027-12-25",
+    "notes": "Federal holiday. Most volunteers and organizations will be closed."
+  },
+  {
+    "id": "jewish-2027-hanukkah",
+    "tradition": "Jewish",
+    "type": "religious_holiday",
+    "label": "Hanukkah",
+    "startDate": "2027-12-25",
+    "endDate": "2028-01-01",
+    "notes": "Begins evening of December 24. Eight-day Festival of Lights. Overlaps with Christmas in 2027."
+  }
+]
