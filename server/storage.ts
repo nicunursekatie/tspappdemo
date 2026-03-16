@@ -919,7 +919,10 @@ export class MemStorage implements IStorage {
       dashboardDocument: 1,
     };
 
-    // No sample data - start with clean storage
+    // Seed demo data for the isolated demo instance
+    import('./demo-seed-data').then(({ seedDemoData }) => seedDemoData(this)).catch(() => {
+      console.log('Demo seed data not loaded (optional)');
+    });
   }
 
   // User methods (required for authentication)

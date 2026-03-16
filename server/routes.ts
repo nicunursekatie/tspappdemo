@@ -2,14 +2,12 @@ import type { Express } from 'express';
 import express from 'express';
 import session from 'express-session';
 import type { Store } from 'express-session';
-import connectPg from 'connect-pg-simple';
 import { storage } from './storage-wrapper';
 import { createActivityLogger } from './middleware/activity-logger';
 import createMainRoutes from './routes/index';
 import { requirePermission, blockInactiveUsers } from './middleware/auth';
 import { createCorsMiddleware, logCorsConfig } from './config/cors';
 import { logger } from './utils/production-safe-logger';
-import { getDatabaseUrl } from './db-url';
 import { registerObjectStorageRoutes } from './replit_integrations/object_storage';
 
 /**
@@ -36,8 +34,9 @@ export async function registerRoutes(app: Express): Promise<Store> {
   const isReplitDeployment = process.env.REPLIT_DEPLOYMENT === '1';
   const isOnReplit = !!process.env.REPL_ID;
 
-  // Validate SESSION_SECRET in production to prevent security vulnerabilities
-  if (isProduction && !process.env.SESSION_SECRET) {
+  // Validate SESSION_SECRET in production (skip for demo mode)
+  const isDemoMode = process.env.APP_ENV === 'development';
+  if (isProduction && !process.env.SESSION_SECRET && !isDemoMode) {
     throw new Error(
       'CRITICAL: SESSION_SECRET environment variable must be set in production. ' +
       'Without this, session tokens can be forged, leading to authentication bypass.'
@@ -50,15 +49,10 @@ export async function registerRoutes(app: Express): Promise<Store> {
     logger.warn('⚠️ [Session] This may cause login to fail. Add REPLIT_DEPLOYMENT=1 to your Secrets.');
   }
 
-  // Use database-backed session store for deployment persistence
-  const databaseUrl = getDatabaseUrl();
-
-  const PgSession = connectPg(session);
-  const sessionStore = new PgSession({
-    conString: databaseUrl,
-    createTableIfMissing: true,
-    ttl: 30 * 24 * 60 * 60, // 30 days in seconds (matches cookie maxAge)
-    tableName: 'sessions',
+  // ISOLATED DEMO: Use in-memory session store (no database)
+  const MemoryStore = (await import('memorystore')).default(session);
+  const sessionStore = new MemoryStore({
+    checkPeriod: 86400000, // prune expired entries every 24h
   });
 
   // CRITICAL: Trust Replit's HTTPS proxy so Express sets secure cookies correctly

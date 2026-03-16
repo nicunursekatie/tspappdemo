@@ -1,7 +1,6 @@
 import type { IStorage } from './storage';
 import { MemStorage } from './storage';
-// Removed GoogleSheetsStorage import - old implementation deleted to prevent conflicts
-import { DatabaseStorage } from './database-storage';
+// DatabaseStorage import removed — demo mode uses MemStorage only
 import { logger } from './utils/production-safe-logger';
 import type {
   InsertEventCollaborationComment,
@@ -21,16 +20,9 @@ class StorageWrapper implements IStorage {
   constructor() {
     this.fallbackStorage = new MemStorage();
 
-    try {
-      // Use database storage as primary for persistence across deployments
-      this.primaryStorage = new DatabaseStorage();
-      logger.log('Database storage initialized');
-    } catch (error) {
-      logger.log(
-        'Failed to initialize database storage, using memory storage'
-      );
-      this.primaryStorage = this.fallbackStorage;
-    }
+    // ISOLATED DEMO: Always use in-memory storage — no database connection
+    this.primaryStorage = this.fallbackStorage;
+    logger.log('Demo mode: using in-memory storage (database disabled)');
   }
 
   private async syncDataFromGoogleSheets() {

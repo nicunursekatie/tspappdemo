@@ -107,9 +107,9 @@ declare global {
  */
 function isDevMode(): boolean {
   const appEnv = process.env.APP_ENV;
-  const nodeEnv = process.env.NODE_ENV;
   const isDeployment = process.env.REPLIT_DEPLOYMENT === '1';
-  return appEnv === 'development' && nodeEnv !== 'production' && !isDeployment;
+  // DEMO MODE: APP_ENV=development enables auto-login regardless of NODE_ENV
+  return appEnv === 'development' && !isDeployment;
 }
 
 // Middleware to check if user is authenticated
@@ -123,16 +123,16 @@ export const isAuthenticated: RequestHandler = async (req: any, res, next) => {
 
   // In development mode, inject a dev admin user if no session exists OR if dev user is already in session
   if (isDevMode()) {
-    const isDevUser = req.session?.user?.email === 'dev@thesandwichproject.org';
+    const isDevUser = req.session?.user?.email === 'demo-admin@thesandwichproject.org' || req.session?.user?.email === 'dev@thesandwichproject.org';
     if (!req.session || !req.session.user || isDevUser) {
-      logger.log('🔧 DEV MODE: Using dev admin user');
+      logger.log('🔧 DEMO MODE: Using demo admin user');
       const devUser = {
-        id: 1,
-        email: 'dev@thesandwichproject.org',
-        firstName: 'Dev',
+        id: '1',
+        email: 'demo-admin@thesandwichproject.org',
+        firstName: 'Demo',
         lastName: 'Admin',
-        displayName: 'Dev Admin',
-        role: 'super_admin',
+        displayName: 'Demo Admin',
+        role: 'admin',
         isActive: true,
         permissions: ['*'],
         profileImageUrl: null,
